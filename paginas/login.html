@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entrar — Boletix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+</head>
+<body data-no-tabbar>
+<div id="app-header"></div>
+
+<main class="wrap" style="padding-block:var(--s6) var(--s8)">
+  <div class="grid" style="grid-template-columns:1fr;gap:var(--s6);max-width:960px;margin-inline:auto" id="lg-grid">
+
+    <div class="stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">Bienvenido de vuelta</span>
+        <h1 style="font-size:var(--t-2xl)">Entra a tu cuenta</h1>
+        <p class="txt-2 t-sm">Tus boletos viven aquí. Nadie más puede usarlos porque el código cambia cada 15 segundos.</p>
+      </div>
+
+      <form class="panel" id="lg-form" novalidate>
+        <div class="panel-body stack stack-4">
+          <div class="field">
+            <label class="label" for="lg-mail">Correo electrónico</label>
+            <input class="input" id="lg-mail" type="email" autocomplete="email" placeholder="tu@correo.com" required>
+          </div>
+          <div class="field">
+            <label class="label" for="lg-pass">Contraseña</label>
+            <div style="position:relative">
+              <input class="input" id="lg-pass" type="password" autocomplete="current-password" placeholder="••••••••" required style="padding-right:3rem">
+              <button class="btn btn-plain btn-icon" type="button" id="lg-eye" aria-label="Mostrar contraseña"
+                style="position:absolute;right:4px;top:50%;transform:translateY(-50%)"></button>
+            </div>
+          </div>
+          <div class="row between">
+            <label class="check"><input type="checkbox" id="lg-remember" checked> <span>Mantener sesión</span></label>
+            <a class="link t-sm" href="ayuda.html#cuenta">¿Olvidaste tu contraseña?</a>
+          </div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Entrar</button>
+          <p class="t-sm center-txt txt-2" style="margin:0">
+            ¿Primera vez aquí? <a class="link" href="registro.html">Crea tu cuenta</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <aside class="stack stack-4">
+      <div class="panel">
+        <div class="panel-head">
+          <h2 style="font-size:var(--t-base)">Cuentas de demostración</h2>
+          <span class="badge badge-ambar">Prototipo</span>
+        </div>
+        <div class="panel-body stack stack-3">
+          <p class="t-sm txt-2" style="margin:0">
+            Toca cualquiera para entrar directo. La contraseña de todas es <code class="mono">boletix123</code>.
+          </p>
+          <div class="stack stack-2" id="lg-demo"></div>
+        </div>
+      </div>
+      <div class="note"><span></span><div class="t-xs">
+        Este sitio no envía datos a ningún servidor. Las cuentas, compras y boletos viven únicamente
+        en el almacenamiento local de tu navegador.
+      </div></div>
+    </aside>
+
+  </div>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="../assets/js/core/data.js"></script>
+<script src="../assets/js/core/store.js"></script>
+<script src="../assets/js/core/ui.js"></script>
+<script src="../assets/js/core/app.js"></script>
+<script src="../assets/js/pages/auth.js"></script>
+</body>
+</html>

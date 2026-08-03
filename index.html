@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boletix — La boletera justa de la Ciudad de México</title>
+<meta name="description" content="Boletos para conciertos, festivales, stand-up y teatro en CDMX. El precio que ves incluye todo. QR dinámico contra clonación y reventa topada al precio original.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app-header"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <canvas class="hero-bg" aria-hidden="true"></canvas>
+  <div class="wrap stack stack-5">
+    <div class="marquee-rule" aria-hidden="true"></div>
+    <div class="stack stack-4">
+      <span class="eyebrow">Ciudad de México · Boletaje justo</span>
+      <h1>Tu boleto<br>sin letras<br><em>chiquitas.</em></h1>
+      <p class="hero-sub">
+        El precio que ves ya trae comisión e IVA. Tu código cambia cada 15 segundos para que nadie
+        lo clone. Y si no puedes ir, lo revendes aquí mismo al precio que pagaste.
+      </p>
+    </div>
+
+    <form class="search-bar" id="hero-search" role="search">
+      <span class="txt-3" aria-hidden="true"></span>
+      <label class="sr" for="q">Buscar evento, artista o recinto</label>
+      <input id="q" type="search" placeholder="Busca un artista, evento o recinto" autocomplete="off">
+      <button class="btn btn-primary btn-sm" type="submit" style="border-radius:var(--r-full);padding-inline:1.1rem">Buscar</button>
+    </form>
+
+    <div class="row row-wrap" style="gap:var(--s2)" id="hero-cats"></div>
+
+    <div class="grid g-2 g-md-4" id="hero-stats" style="gap:var(--s3)"></div>
+  </div>
+</section>
+
+<!-- ============ ESTA SEMANA ============ -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="stack stack-1">
+        <span class="eyebrow">Próximos 30 días</span>
+        <h2>Lo que viene en la ciudad</h2>
+      </div>
+      <a class="btn btn-ghost btn-sm" href="paginas/eventos.html">Ver todo</a>
+    </div>
+    <div class="rail" id="rail-soon"></div>
+  </div>
+</section>
+
+<!-- ============ COMPARADOR ============ -->
+<section class="section" id="transparencia" style="background:var(--bg-alt);border-block:1px solid var(--line)">
+  <div class="wrap grid g-md-2" style="gap:var(--s6);align-items:center">
+    <div class="stack stack-4">
+      <span class="eyebrow">Precio Total Real</span>
+      <h2>Los cargos no aparecen al final.<br>Ya están en el número grande.</h2>
+      <p class="txt-2">
+        La práctica de mostrar un precio bajo y sumar cargos en el último paso tiene nombre —
+        <em>drip pricing</em> — y ya fue sancionada por autoridades de competencia en Canadá y
+        Reino Unido. Nosotros cobramos una tarifa plana de 7% más IVA, visible desde la primera
+        pantalla. Mueve el selector y compara.
+      </p>
+      <div class="field" style="max-width:420px">
+        <label class="label" for="cmp-event">Evento a comparar</label>
+        <select class="select" id="cmp-event"></select>
+      </div>
+      <div class="field" style="max-width:220px">
+        <label class="label" for="cmp-qty">Boletos</label>
+        <select class="select" id="cmp-qty">
+          <option>1</option><option selected>2</option><option>3</option><option>4</option>
+        </select>
+      </div>
+    </div>
+    <div class="stack stack-3" id="cmp-out"></div>
+  </div>
+</section>
+
+<!-- ============ DOLORES -> SOLUCIONES ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="stack stack-1">
+        <span class="eyebrow">Investigación de mercado</span>
+        <h2>Nueve quejas reales.<br>Nueve funciones que las resuelven.</h2>
+      </div>
+    </div>
+    <p class="txt-2" style="max-width:62ch;margin-bottom:var(--s5)">
+      Revisamos denuncias ante Profeco, reportes de competencia económica, foros de compradores y
+      reseñas de tiendas de aplicaciones. Cada tarjeta empareja una queja documentada con la
+      función de Boletix que la ataca.
+    </p>
+    <div class="grid g-md-3" id="pain-grid"></div>
+  </div>
+</section>
+
+<!-- ============ REVENTA ============ -->
+<section class="section" style="background:var(--bg-alt);border-block:1px solid var(--line)">
+  <div class="wrap grid g-md-2" style="gap:var(--s6);align-items:center">
+    <div class="stack stack-4">
+      <span class="eyebrow">Mercado secundario</span>
+      <h2>Reventa Justa: tope duro al precio original</h2>
+      <p class="txt-2">
+        Los bots acaparan entre 15% y 30% del inventario en preventa y empujan al público al mercado
+        secundario, donde se han documentado sobrecostos de hasta 400%. En Boletix nadie puede pedir
+        un peso más de lo que pagó. El boleto se transfiere dentro del sistema, el código anterior
+        muere y el comprador recibe uno nuevo.
+      </p>
+      <div class="row row-wrap" style="gap:var(--s2)">
+        <a class="btn btn-primary" href="paginas/reventa.html">Ver boletos en reventa</a>
+        <a class="btn btn-ghost" href="paginas/transparencia.html#reventa">Cómo funciona</a>
+      </div>
+    </div>
+    <div class="stack stack-3" id="resale-teaser"></div>
+  </div>
+</section>
+
+<!-- ============ TENDENCIA ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="stack stack-1">
+        <span class="eyebrow">Más buscados esta semana</span>
+        <h2>En tendencia</h2>
+      </div>
+      <a class="btn btn-ghost btn-sm" href="paginas/eventos.html?orden=populares">Ver todo</a>
+    </div>
+    <div class="grid g-2 g-md-4" id="grid-trending"></div>
+  </div>
+</section>
+
+<!-- ============ B2B ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="card" style="padding:var(--s5);border-color:var(--line-strong)">
+      <div class="grid g-md-2" style="gap:var(--s5);align-items:center">
+        <div class="stack stack-3">
+          <span class="eyebrow">Para promotores y recintos</span>
+          <h2 style="font-size:var(--t-xl)">Cobra el jueves lo que vendiste el miércoles</h2>
+          <p class="txt-2">
+            Dispersión a 48 horas, panel de ventas en tiempo real y datos de tu público que puedes
+            exportar. Sin exclusividad y sin letras chiquitas para ti tampoco.
+          </p>
+          <div class="row row-wrap" style="gap:var(--s2)">
+            <a class="btn btn-amber" href="paginas/publica-tu-evento.html">Publicar un evento</a>
+            <a class="btn btn-ghost" href="paginas/promotor.html">Ver el panel</a>
+          </div>
+        </div>
+        <div class="grid g-2" style="gap:var(--s3)" id="b2b-stats"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CUENTAS DE PRUEBA ============ -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="note note-ambar" style="align-items:flex-start">
+      <span></span>
+      <div class="stack stack-2 grow">
+        <strong>Prototipo de demostración — cuentas listas para entrar</strong>
+        <p class="t-sm" style="margin:0">
+          Este sitio no procesa pagos reales ni guarda datos en un servidor. Todo vive en tu navegador.
+          Usa cualquiera de estas cuentas; la contraseña de todas es <code class="mono">boletix123</code>.
+        </p>
+        <div class="grid g-2 g-md-4" style="gap:var(--s2);width:100%" id="demo-accounts"></div>
+        <button class="btn btn-ghost btn-sm" style="align-self:flex-start" onclick="BX.app.resetDemo()">
+          Reiniciar datos de la demostración
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="app-footer"></div>
+
+<script src="assets/js/core/data.js"></script>
+<script src="assets/js/core/store.js"></script>
+<script src="assets/js/core/ui.js"></script>
+<script src="assets/js/core/app.js"></script>
+<script src="assets/js/pages/home.js"></script>
+</body>
+</html>

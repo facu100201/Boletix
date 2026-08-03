@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crear cuenta — Boletix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+</head>
+<body data-no-tabbar>
+<div id="app-header"></div>
+
+<main class="wrap" style="padding-block:var(--s6) var(--s8)">
+  <div class="grid" style="grid-template-columns:1fr;gap:var(--s6);max-width:960px;margin-inline:auto" id="rg-grid">
+
+    <div class="stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">Toma treinta segundos</span>
+        <h1 style="font-size:var(--t-2xl)">Crea tu cuenta</h1>
+        <p class="txt-2 t-sm">Sin verificación por correo, sin cuestionario de marketing y sin casillas premarcadas.</p>
+      </div>
+
+      <form class="panel" id="rg-form" novalidate>
+        <div class="panel-body stack stack-4">
+          <div class="field">
+            <label class="label" for="rg-name">Nombre completo</label>
+            <input class="input" id="rg-name" autocomplete="name" placeholder="Como aparece en tu identificación" required>
+            <span class="hint">Debe coincidir con tu identificación si el evento pide verificar edad.</span>
+          </div>
+          <div class="field">
+            <label class="label" for="rg-mail">Correo electrónico</label>
+            <input class="input" id="rg-mail" type="email" autocomplete="email" placeholder="tu@correo.com" required>
+          </div>
+          <div class="grid g-sm-2" style="gap:var(--s3)">
+            <div class="field">
+              <label class="label" for="rg-phone">Teléfono</label>
+              <input class="input" id="rg-phone" type="tel" autocomplete="tel" placeholder="55 1234 5678">
+            </div>
+            <div class="field">
+              <label class="label" for="rg-birth">Fecha de nacimiento</label>
+              <input class="input" id="rg-birth" type="date">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="rg-pass">Contraseña</label>
+            <input class="input" id="rg-pass" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required>
+            <div class="bar-track" style="margin-top:6px"><i id="rg-strength" style="width:0%"></i></div>
+            <span class="hint" id="rg-strength-txt">Usa al menos 8 caracteres.</span>
+          </div>
+          <div class="field">
+            <label class="label" for="rg-pass2">Repite la contraseña</label>
+            <input class="input" id="rg-pass2" type="password" autocomplete="new-password" required>
+          </div>
+
+          <hr class="divider">
+
+          <label class="check"><input type="checkbox" id="rg-terms">
+            <span>Acepto los <a class="link" href="legal.html#terminos" target="_blank">términos</a> y el
+            <a class="link" href="legal.html#privacidad" target="_blank">aviso de privacidad</a>.</span></label>
+          <label class="check"><input type="checkbox" id="rg-alerts" checked>
+            <span>Avísame cuando salgan a la venta eventos de artistas que sigo.</span></label>
+          <label class="check"><input type="checkbox" id="rg-news">
+            <span>Quiero el boletín semanal de la cartelera. <span class="txt-3">(Opcional, y sí, se puede cancelar en un clic.)</span></span></label>
+
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Crear mi cuenta</button>
+          <p class="t-sm center-txt txt-2" style="margin:0">
+            ¿Ya tienes cuenta? <a class="link" href="login.html">Entra aquí</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <aside class="stack stack-4">
+      <div class="panel">
+        <div class="panel-head"><h2 style="font-size:var(--t-base)">Qué obtienes</h2></div>
+        <div class="panel-body stack stack-4" id="rg-perks"></div>
+      </div>
+      <div class="note note-jade"><span></span><div class="t-xs">
+        No vendemos tus datos ni los compartimos con promotores sin tu permiso explícito.
+        Puedes descargar todo lo que tenemos de ti, o borrar tu cuenta, desde tu perfil.
+      </div></div>
+    </aside>
+
+  </div>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="../assets/js/core/data.js"></script>
+<script src="../assets/js/core/store.js"></script>
+<script src="../assets/js/core/ui.js"></script>
+<script src="../assets/js/core/app.js"></script>
+<script src="../assets/js/pages/auth.js"></script>
+</body>
+</html>

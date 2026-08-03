@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Centro de ayuda — Boletix</title>
+<meta name="description" content="Respuestas sobre compras, boletos, reembolsos, transferencias y accesos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<style>
+  details.faq { border-bottom: 1px solid var(--line); }
+  details.faq summary {
+    list-style: none; cursor: pointer; padding: var(--s4) 0;
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s3);
+    font-weight: 600; font-size: var(--t-base);
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: "+"; font-family: var(--f-mono); font-size: var(--t-lg);
+    color: var(--accent); flex: none; transition: transform .2s;
+  }
+  details.faq[open] summary::after { content: "−"; }
+  details.faq .faq-body { padding-bottom: var(--s4); color: var(--txt-2); font-size: var(--t-sm); max-width: 68ch; }
+</style>
+</head>
+<body>
+<div id="app-header"></div>
+
+<main class="wrap" style="padding-block:var(--s6) var(--s8)">
+  <div class="stack stack-6">
+
+    <div class="stack stack-3" style="max-width:60ch">
+      <span class="eyebrow">Centro de ayuda</span>
+      <h1 style="font-size:var(--t-2xl)">¿En qué te atoraste?</h1>
+      <p class="txt-2">
+        La mayoría de las dudas se resuelven aquí en menos de un minuto. Si no encuentras lo tuyo,
+        abajo están las formas reales de contactarnos, con el tiempo de respuesta que sí cumplimos.
+      </p>
+    </div>
+
+    <div class="grid g-2 g-md-4" id="hp-shortcuts"></div>
+
+    <form class="search-bar" id="hp-search" role="search">
+      <span class="txt-3"></span>
+      <label class="sr" for="hp-q">Buscar en la ayuda</label>
+      <input id="hp-q" type="search" placeholder="Busca: reembolso, transferir, QR, factura…" autocomplete="off">
+    </form>
+
+    <div class="stack stack-6" id="hp-faqs"></div>
+
+    <!-- ===== CONTACTO ===== -->
+    <section id="contacto" class="stack stack-4">
+      <div class="stack stack-2">
+        <span class="eyebrow">Contacto</span>
+        <h2 style="font-size:var(--t-xl)">Hablar con una persona</h2>
+        <p class="txt-2 t-sm" style="max-width:60ch">
+          No tenemos un laberinto de menús. Estos son los canales, y estos son los tiempos que
+          publicamos y medimos.
+        </p>
+      </div>
+      <div class="grid g-md-3" id="hp-channels"></div>
+
+      <div class="panel" style="margin-top:var(--s3)">
+        <div class="panel-head"><h3 style="font-size:var(--t-base)">Escríbenos</h3></div>
+        <form class="panel-body stack stack-4" id="hp-form">
+          <div class="grid g-md-2" style="gap:var(--s3)">
+            <div class="field"><label class="label" for="hp-name">Tu nombre</label>
+              <input class="input" id="hp-name" required></div>
+            <div class="field"><label class="label" for="hp-mail">Tu correo</label>
+              <input class="input" id="hp-mail" type="email" required></div>
+          </div>
+          <div class="field"><label class="label" for="hp-topic">Tema</label>
+            <select class="select" id="hp-topic">
+              <option>Problema con una compra</option>
+              <option>Reembolso</option>
+              <option>No puedo abrir mi boleto</option>
+              <option>Sospecha de fraude o reventa</option>
+              <option>Facturación</option>
+              <option>Quiero publicar un evento</option>
+              <option>Otra cosa</option>
+            </select></div>
+          <div class="field"><label class="label" for="hp-order">Número de orden <span class="txt-3">(si aplica)</span></label>
+            <input class="input mono" id="hp-order" placeholder="BX-2026-0000"></div>
+          <div class="field"><label class="label" for="hp-msg">Cuéntanos qué pasó</label>
+            <textarea class="textarea" id="hp-msg" placeholder="Entre más concreto, más rápido lo resolvemos." required></textarea></div>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Enviar</button>
+          <p class="t-xs txt-3 center-txt" style="margin:0">
+            Prototipo: el mensaje no se envía a ningún lado.
+          </p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== PROFECO ===== -->
+    <div class="note note-ambar">
+      <span></span>
+      <div class="t-sm">
+        <strong>Si no quedas conforme con nuestra respuesta.</strong> Tienes derecho a presentar una
+        queja ante la Procuraduría Federal del Consumidor. No lo escondemos en la letra chiquita:
+        está aquí porque es tu derecho, y porque una plataforma que confía en su servicio no le teme
+        a que lo ejerzas.
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="../assets/js/core/data.js"></script>
+<script src="../assets/js/core/store.js"></script>
+<script src="../assets/js/core/ui.js"></script>
+<script src="../assets/js/core/app.js"></script>
+<script src="../assets/js/pages/help.js"></script>
+</body>
+</html>

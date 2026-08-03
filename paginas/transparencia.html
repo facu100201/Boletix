@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cómo cobramos y por qué — Boletix</title>
+<meta name="description" content="Comisión plana de 7%, sin precios dinámicos, sin cargos ocultos. Cómo funcionan la fila virtual, el QR dinámico y la reventa topada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app-header"></div>
+
+<main>
+  <section class="wrap" style="padding-block:var(--s6) var(--s5)">
+    <div class="stack stack-4" style="max-width:62ch">
+      <span class="eyebrow">Cómo cobramos y por qué</span>
+      <h1 style="font-size:clamp(2rem,7vw,3.4rem);text-transform:uppercase;line-height:.95">
+        Aquí está<br>todo el<br>desglose.
+      </h1>
+      <p class="txt-2" style="font-size:var(--t-md)">
+        Esta página existe porque el negocio del boletaje se construyó sobre la ambigüedad: un precio
+        anunciado, otro precio cobrado, y un cargo por servicio que aparece cuando ya tienes el dedo
+        en el botón. Aquí no hay nada que descubrir en el último paso.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== PRECIO ===== -->
+  <section class="section" id="precio" style="background:var(--bg-alt);border-block:1px solid var(--line)">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">01 · El precio</span>
+        <h2>Una tarifa plana de 7% más IVA. Nada más.</h2>
+      </div>
+
+      <div class="grid g-md-2" style="gap:var(--s5);align-items:start">
+        <div class="stack stack-4">
+          <p class="txt-2">
+            El cargo por servicio habitual en boleteras tradicionales va del 15% al 20%, y encima
+            suelen aparecer conceptos separados por gestión, procesamiento y entrega digital —
+            incluso cuando el boleto es un archivo que tú mismo descargas. La práctica se llama
+            <em>drip pricing</em> y ya derivó en sanciones de autoridades de competencia.
+          </p>
+          <p class="txt-2">
+            Nosotros cobramos una sola cosa: 7% del precio del boleto, más el IVA que corresponde a
+            esa comisión. El IVA se calcula únicamente sobre nuestro cargo, no sobre el boleto.
+            No cobramos gastos de gestión, de envío, ni de "servicio digital".
+          </p>
+          <div class="stack stack-2">
+            <span class="eyebrow">Conceptos que no verás nunca</span>
+            <div class="row row-wrap" style="gap:var(--s2)" id="tr-nope"></div>
+          </div>
+        </div>
+
+        <div class="stack stack-3" id="tr-calc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FILA ===== -->
+  <section class="section" id="fila">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">02 · La fila virtual</span>
+        <h2>Tu lugar es real y tu precio queda congelado</h2>
+      </div>
+      <div class="grid g-md-2" style="gap:var(--s5);align-items:start">
+        <div class="stack stack-4">
+          <p class="txt-2">
+            La queja que más se repite sobre las filas virtuales no es la espera: es llegar al frente
+            y encontrar que el precio subió. Cuando el sistema combina fila con precios dinámicos, la
+            espera deja de ser un trámite y se convierte en una apuesta.
+          </p>
+          <p class="txt-2">
+            En Boletix, entrar a la fila bloquea el precio que viste. Además mostramos tu posición
+            real —la que sale de la cola del servidor, no una animación— y el ritmo al que avanza.
+            Si se te cae la conexión, tu lugar sigue ahí: vuelve a abrir la página.
+          </p>
+          <div class="note note-jade">
+            <span></span>
+            <div class="t-sm">
+              <strong>Carrito blindado.</strong> Cuando llega tu turno tienes 10 minutos con los
+              lugares apartados y el reloj a la vista. Si el pago falla, no vuelves a formarte:
+              el apartado sigue siendo tuyo hasta que se acabe el tiempo.
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3 style="font-size:var(--t-base)">Lo que ve el usuario</h3></div>
+          <div class="panel-body stack stack-4" id="tr-queue"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QR ===== -->
+  <section class="section" id="qr" style="background:var(--bg-alt);border-block:1px solid var(--line)">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">03 · El boleto</span>
+        <h2>Un código que caduca antes de que puedas compartirlo</h2>
+      </div>
+      <div class="grid g-md-2" style="gap:var(--s5);align-items:center">
+        <div class="stack stack-4">
+          <p class="txt-2">
+            El fraude que más creció en México no es la falsificación burda: es la clonación. Alguien
+            compra un boleto legítimo en PDF, lo reenvía a varias personas, y quien llega tarde se
+            queda afuera aunque su compra sea real. El problema es el formato: un archivo estático
+            se puede copiar infinitas veces.
+          </p>
+          <p class="txt-2">
+            Por eso en Boletix no hay PDF que descargar. Tu código se regenera cada 15 segundos
+            dentro de tu cuenta. Una captura de pantalla ya no sirve para cuando alcanzas a mandarla.
+            Y como la secuencia se guarda en tu dispositivo, sigue funcionando sin señal —igual que
+            el lector de la puerta, que valida offline y sincroniza después.
+          </p>
+          <a class="btn btn-ghost" href="cuenta.html">Ver un boleto en vivo</a>
+        </div>
+        <div class="stack stack-3">
+          <div class="qr-frame"><canvas id="tr-qr"></canvas></div>
+          <div class="qr-timer"><i id="tr-qrbar" style="width:100%"></i></div>
+          <p class="t-sm txt-3 center-txt" style="margin:0">
+            Se renueva en <strong class="mono" id="tr-qrsecs">15</strong> segundos. Míralo cambiar.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REVENTA ===== -->
+  <section class="section" id="reventa">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">04 · El mercado secundario</span>
+        <h2>Si el mercado secundario va a existir, que exista aquí</h2>
+      </div>
+      <div class="grid g-md-2" style="gap:var(--s5);align-items:start">
+        <div class="stack stack-4">
+          <p class="txt-2">
+            Prohibir la reventa no la elimina; la empuja a plataformas donde nadie puede verificar
+            nada. Los bots automatizados llegan a acaparar entre 15% y 30% del inventario en preventa,
+            y ese inventario reaparece afuera con sobreprecios documentados de hasta 400%.
+          </p>
+          <p class="txt-2">
+            Nuestra respuesta tiene dos partes. La primera es que el tope de precio no es una regla
+            escrita en los términos: es que <strong>no existe interfaz para publicar más caro</strong>.
+            El campo está fijado al precio de compra. La segunda es que quien revende no paga
+            comisión: recupera exactamente lo que pagó.
+          </p>
+          <div class="note note-violeta">
+            <span></span>
+            <div class="t-sm">
+              <strong>Qué pasa con la reventa afuera.</strong> Cuando detectamos un boleto publicado
+              fuera de Boletix por encima de su precio, avisamos al titular y le damos 24 horas para
+              retirarlo. Si no lo hace, anulamos el código y reembolsamos al comprador. Nadie pierde
+              su dinero; el especulador sí pierde el negocio.
+            </div>
+          </div>
+          <a class="btn btn-primary" href="reventa.html">Ver Reventa Justa</a>
+        </div>
+        <div class="stack stack-3" id="tr-resale"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REEMBOLSO ===== -->
+  <section class="section" id="reembolso" style="background:var(--bg-alt);border-block:1px solid var(--line)">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">05 · El reembolso</span>
+        <h2>Un botón, no un viacrucis</h2>
+      </div>
+      <div class="grid g-md-2" style="gap:var(--s5);align-items:start">
+        <div class="stack stack-4">
+          <p class="txt-2">
+            Entre 2022 y 2024, Profeco registró 5,652 quejas en el mercado de venta de boletos. Una
+            parte importante es siempre la misma historia: el reembolso que se niega, el correo que
+            no contesta, el plazo que se estira.
+          </p>
+          <p class="txt-2">
+            En Boletix el reembolso es un botón dentro de tu cuenta, disponible hasta 48 horas antes
+            del evento, sin llamadas ni formularios de justificación. Y devolvemos el total,
+            <strong>incluida nuestra comisión</strong>. La mayoría de las plataformas se queda con
+            el cargo por servicio incluso cuando te devuelve el boleto; a nosotros nos parece que
+            cobrar por un servicio que terminó en devolución no tiene defensa.
+          </p>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3 style="font-size:var(--t-base)">Comparación de plazos</h3></div>
+          <div class="panel-body stack stack-4" id="tr-refund"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ORIGEN ===== -->
+  <section class="section">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">De dónde salen estas decisiones</span>
+        <h2>Cada función responde a una queja documentada</h2>
+      </div>
+      <div class="grid g-md-3" id="tr-pains"></div>
+      <div class="card card-flat">
+        <h3 style="font-size:var(--t-base);margin-bottom:var(--s3)">Fuentes consultadas</h3>
+        <div class="stack stack-2 t-sm txt-2" id="tr-sources"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="../assets/js/core/data.js"></script>
+<script src="../assets/js/core/store.js"></script>
+<script src="../assets/js/core/ui.js"></script>
+<script src="../assets/js/core/app.js"></script>
+<script src="../assets/js/pages/transparency.js"></script>
+</body>
+</html>

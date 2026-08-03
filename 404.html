@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Página no encontrada — Boletix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app-header"></div>
+
+<main class="wrap" style="padding-block:var(--s8)">
+  <div class="stack stack-5" style="max-width:52ch">
+    <div class="marquee-rule" aria-hidden="true"></div>
+    <div class="stack stack-3">
+      <span class="eyebrow">Error 404</span>
+      <h1 style="font-size:clamp(2.4rem,11vw,4.4rem);text-transform:uppercase;line-height:.92">
+        Esta función<br><em style="font-style:normal;color:var(--accent)">ya terminó.</em>
+      </h1>
+      <p class="txt-2">
+        La página que buscabas no existe o cambió de dirección. Pasa: los eventos se acaban, las ligas
+        también. Aquí está la salida.
+      </p>
+    </div>
+    <div class="row row-wrap" style="gap:var(--s2)">
+      <a class="btn btn-primary" href="index.html">Ir al inicio</a>
+      <a class="btn btn-ghost" href="paginas/eventos.html">Ver la cartelera</a>
+      <a class="btn btn-ghost" href="paginas/ayuda.html">Centro de ayuda</a>
+    </div>
+  </div>
+
+  <div class="stack stack-4" style="margin-top:var(--s8)">
+    <h2 style="font-size:var(--t-lg)">Mientras estás aquí</h2>
+    <div class="grid g-2 g-md-4" id="nf-events"></div>
+  </div>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="assets/js/core/data.js"></script>
+<script src="assets/js/core/store.js"></script>
+<script src="assets/js/core/ui.js"></script>
+<script src="assets/js/core/app.js"></script>
+<script>
+(function () {
+  var BX = window.BX, UI = BX.ui, S = BX.store;
+  document.getElementById("nf-events").innerHTML =
+    S.upcoming().slice(0, 4).map(UI.eventCard).join("");
+  UI.hydratePosters();
+})();
+</script>
+</body>
+</html>

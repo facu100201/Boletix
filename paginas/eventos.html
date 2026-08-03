@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Explorar eventos — Boletix</title>
+<meta name="description" content="Conciertos, festivales, stand-up, teatro y deportes en la Ciudad de México. Precios totales, sin cargos sorpresa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app-header"></div>
+
+<main class="wrap" style="padding-block:var(--s5) var(--s7)">
+  <div class="stack stack-4">
+    <div class="stack stack-2">
+      <span class="eyebrow">Cartelera Ciudad de México</span>
+      <h1 style="font-size:var(--t-2xl)">Explorar eventos</h1>
+      <p class="txt-2 t-sm" style="max-width:56ch">
+        Todos los precios que ves incluyen el cargo por servicio y el IVA. Lo que dice la tarjeta es
+        lo que se cobra a tu tarjeta.
+      </p>
+    </div>
+
+    <form class="search-bar" id="ex-search" role="search">
+      <span class="txt-3"></span>
+      <label class="sr" for="q">Buscar</label>
+      <input id="q" type="search" placeholder="Artista, evento, recinto o etiqueta" autocomplete="off">
+      <button class="btn btn-plain btn-icon" type="button" id="ex-clear" aria-label="Limpiar búsqueda"></button>
+    </form>
+
+    <!-- Filtros rápidos siempre visibles -->
+    <div class="scroll-x" style="margin-inline:calc(-1 * var(--s4));padding-inline:var(--s4)">
+      <div class="row" style="gap:var(--s2);width:max-content" id="ex-cats"></div>
+    </div>
+
+    <div class="row between" style="gap:var(--s3)">
+      <button class="btn btn-ghost btn-sm" id="ex-openfilters">
+        <span id="ex-filtercount"></span>
+      </button>
+      <div class="row" style="gap:var(--s2)">
+        <label class="sr" for="ex-sort">Ordenar</label>
+        <select class="select" id="ex-sort" style="min-height:38px;padding-block:.3rem;font-size:var(--t-sm);width:auto">
+          <option value="fecha">Más próximos</option>
+          <option value="populares">Más vendidos</option>
+          <option value="precio-asc">Precio: menor a mayor</option>
+          <option value="precio-desc">Precio: mayor a menor</option>
+          <option value="nuevos">Recién publicados</option>
+        </select>
+      </div>
+    </div>
+
+    <p class="t-sm txt-3" id="ex-count" aria-live="polite"></p>
+    <div class="grid g-2 g-md-3 g-lg-4" id="ex-grid"></div>
+    <div id="ex-empty"></div>
+  </div>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="../assets/js/core/data.js"></script>
+<script src="../assets/js/core/store.js"></script>
+<script src="../assets/js/core/ui.js"></script>
+<script src="../assets/js/core/app.js"></script>
+<script src="../assets/js/pages/explore.js"></script>
+</body>
+</html>

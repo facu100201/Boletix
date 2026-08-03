@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Publica tu evento — Boletix</title>
+<meta name="description" content="Boletaje para promotores y recintos de mediana escala en CDMX. Dispersión a 48 horas, sin cuota de alta ni exclusividad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/boletix.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+<div id="app-header"></div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" style="padding-block:var(--s6) var(--s6)">
+    <canvas class="hero-bg" aria-hidden="true"></canvas>
+    <div class="wrap stack stack-5">
+      <div class="marquee-rule" aria-hidden="true"></div>
+      <div class="stack stack-4" style="max-width:22ch">
+        <span class="eyebrow">Para promotores y recintos</span>
+        <h1 style="font-size:clamp(2.2rem,10vw,4.6rem)">Cobra el jueves<br>lo que vendiste<br><em>el miércoles.</em></h1>
+      </div>
+      <p class="hero-sub">
+        Boletaje para eventos de mediana escala en la Ciudad de México. Sin cuota de alta, sin
+        exclusividad, sin retener tu dinero un mes. Comisión del 7% que paga el público, desglosada
+        desde el primer clic.
+      </p>
+      <div class="row row-wrap" style="gap:var(--s2)">
+        <a class="btn btn-primary btn-lg" href="#alta">Dar de alta mi evento</a>
+        <a class="btn btn-ghost btn-lg" href="promotor.html">Ver el panel por dentro</a>
+      </div>
+      <div class="grid g-2 g-md-4" style="gap:var(--s3)" id="b2-stats"></div>
+    </div>
+  </section>
+
+  <!-- COMPARATIVA -->
+  <section class="section" style="background:var(--bg-alt);border-block:1px solid var(--line)">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">Lo que cambia</span>
+        <h2>Las condiciones, comparadas</h2>
+        <p class="txt-2 t-sm" style="max-width:60ch">
+          Esta tabla no es marketing: es el contrato. Cualquiera de estas líneas se puede verificar
+          en el panel del promotor y en la sección de reglas de la plataforma.
+        </p>
+      </div>
+      <div class="table-wrap">
+        <table class="tbl">
+          <thead><tr><th>Concepto</th><th>Boletera tradicional</th><th>Boletix</th></tr></thead>
+          <tbody id="b2-compare"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="section">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">De la firma a la puerta</span>
+        <h2>Cómo se opera un evento</h2>
+      </div>
+      <div class="grid g-md-3" id="b2-steps"></div>
+    </div>
+  </section>
+
+  <!-- HERRAMIENTAS -->
+  <section class="section" style="background:var(--bg-alt);border-block:1px solid var(--line)">
+    <div class="wrap stack stack-5">
+      <div class="stack stack-2">
+        <span class="eyebrow">Lo que recibes</span>
+        <h2>Herramientas, no promesas</h2>
+      </div>
+      <div class="grid g-md-2" id="b2-tools"></div>
+    </div>
+  </section>
+
+  <!-- ALTA -->
+  <section class="section" id="alta">
+    <div class="wrap">
+      <div class="grid g-md-2" style="gap:var(--s6);align-items:start">
+        <div class="stack stack-4">
+          <span class="eyebrow">Alta de promotor</span>
+          <h2>Empezamos con una llamada de 20 minutos</h2>
+          <p class="txt-2">
+            Necesitamos tu RFC y el permiso de uso del recinto para verificarte. Ese filtro es lo que
+            permite que tu evento lleve el sello de Promotor Verificado, y lo que impide que alguien
+            publique un evento que no existe usando el nombre de tu recinto.
+          </p>
+          <div class="stack stack-3">
+            <span class="eyebrow">Qué te vamos a pedir</span>
+            <div class="stack stack-2 t-sm txt-2">
+              <div>· Constancia de situación fiscal (RFC vigente).</div>
+              <div>· Carta o contrato de uso del recinto para la fecha.</div>
+              <div>· Cuenta bancaria a nombre de la razón social, para la dispersión.</div>
+              <div>· Aforo autorizado y distribución de zonas.</div>
+            </div>
+          </div>
+          <div class="note note-jade">
+            <span></span>
+            <div class="t-sm">
+              <strong>Sin exclusividad.</strong> Puedes vender el mismo evento en Boletix y en otro
+              lado al mismo tiempo. Sincronizamos inventario por API para que no sobrevendas.
+            </div>
+          </div>
+        </div>
+
+        <form class="panel" id="b2-form">
+          <div class="panel-head"><h3 style="font-size:var(--t-base)">Solicitar alta</h3></div>
+          <div class="panel-body stack stack-4">
+            <div class="field"><label class="label" for="b2-org">Nombre comercial o razón social</label>
+              <input class="input" id="b2-org" required></div>
+            <div class="field"><label class="label" for="b2-contact">Persona de contacto</label>
+              <input class="input" id="b2-contact" required></div>
+            <div class="grid g-sm-2" style="gap:var(--s3)">
+              <div class="field"><label class="label" for="b2-mail">Correo</label>
+                <input class="input" id="b2-mail" type="email" required></div>
+              <div class="field"><label class="label" for="b2-tel">Teléfono</label>
+                <input class="input" id="b2-tel" type="tel"></div>
+            </div>
+            <div class="field"><label class="label" for="b2-rfc">RFC</label>
+              <input class="input mono" id="b2-rfc" placeholder="ABC010101XY0" maxlength="13"></div>
+            <div class="grid g-sm-2" style="gap:var(--s3)">
+              <div class="field"><label class="label" for="b2-venue">Recinto habitual</label>
+                <select class="select" id="b2-venue"></select></div>
+              <div class="field"><label class="label" for="b2-vol">Eventos al año</label>
+                <select class="select" id="b2-vol">
+                  <option>1 a 3</option><option>4 a 10</option><option>11 a 30</option><option>Más de 30</option>
+                </select></div>
+            </div>
+            <div class="field"><label class="label" for="b2-msg">Cuéntanos de tu evento</label>
+              <textarea class="textarea" id="b2-msg" placeholder="Tipo de evento, aforo esperado, fecha tentativa."></textarea></div>
+            <label class="check"><input type="checkbox" id="b2-rules">
+              <span>Entiendo que Boletix prohíbe precios dinámicos y exige reembolso al comprador hasta 48 h antes.</span></label>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Solicitar alta</button>
+            <p class="t-xs txt-3 center-txt" style="margin:0">Prototipo: la solicitud no se envía.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="app-footer"></div>
+
+<script src="../assets/js/core/data.js"></script>
+<script src="../assets/js/core/store.js"></script>
+<script src="../assets/js/core/ui.js"></script>
+<script src="../assets/js/core/app.js"></script>
+<script src="../assets/js/pages/b2b.js"></script>
+</body>
+</html>
