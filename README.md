@@ -26,6 +26,34 @@ Levanta `http://localhost:8080` y abre el navegador. Usa Node si está instalado
 navegadores bloquean `localStorage` bajo el protocolo `file://`. Si eso pasa, el sitio sigue
 operando en memoria y sólo se pierde el estado al recargar.
 
+**En línea:** el sitio está publicado en <https://facu100201.github.io/Boletix/>.
+
+---
+
+## Publicación automática
+
+Cada commit a `main` dispara [`.github/workflows/pages.yml`](.github/workflows/pages.yml), que hace
+dos trabajos en orden:
+
+1. **Verificar** — corre `node tools/check.js`, que revisa la sintaxis de los 23 archivos JS, que
+   toda liga interna apunte a un archivo existente *con las mayúsculas exactas* (GitHub Pages corre
+   en Linux y sí distingue) y que cada página traiga doctype, `lang`, charset, viewport y título.
+   Después levanta `tools/server.js` y comprueba que la portada, la cartelera y la hoja de estilos
+   respondan 200, y que una ruta inventada devuelva 404.
+2. **Publicar** — sólo si el paso anterior pasó. Copia `index.html`, `404.html`, `assets/` y
+   `paginas/` a una carpeta limpia y la sube a Pages. `tools/`, `docs/`, el README y `start.ps1`
+   no se publican.
+
+En un *pull request* corre sólo la verificación: no se publica nada hasta que el cambio entra a
+`main`. Para probar la verificación antes de subir:
+
+```powershell
+node tools/check.js
+```
+
+> **Ajuste inicial:** en el repositorio, *Settings → Pages → Build and deployment → Source* debe estar
+> en **GitHub Actions** (no en «Deploy from a branch»). Es un ajuste de una sola vez.
+
 ---
 
 ## Cuentas precargadas
@@ -140,8 +168,13 @@ Boletix/
 ├── docs/                          Documentación del proyecto
 │   └── Valuación de Proyectos - Boletix.md
 │
-└── tools/
-    └── server.js                  Servidor estático sin dependencias
+├── tools/
+│   ├── server.js                  Servidor estático sin dependencias
+│   └── check.js                   Verificación previa a publicar
+│
+├── .github/workflows/
+│   └── pages.yml                  Verifica y publica en cada commit
+└── .nojekyll                      Pide a Pages servir los archivos tal cual
 ```
 
 ### Cómo se resuelven las rutas

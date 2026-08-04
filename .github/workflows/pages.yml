@@ -1,0 +1,79 @@
+name: Verificar y publicar en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # permite lanzarlo a mano desde la pestaña Actions
+
+# Un solo despliegue a la vez; si llegan varios commits, gana el último.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------
+  # 1. Verificar — corre en cada commit y en cada pull request.
+  # ---------------------------------------------------------------
+  verificar:
+    name: Verificar el sitio
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Sintaxis, ligas internas y cabeceras
+        run: node tools/check.js
+
+      - name: Arrancar el sitio y comprobar que responde
+        run: |
+          node tools/server.js 8080 &
+          for i in $(seq 1 20); do
+            curl -sf http://localhost:8080/ > /dev/null && break
+            sleep 0.5
+          done
+          curl -sf http://localhost:8080/ > /dev/null
+          curl -sf http://localhost:8080/paginas/eventos.html > /dev/null
+          curl -sf http://localhost:8080/assets/css/boletix.css > /dev/null
+          curl -so /dev/null -w '404 devuelve %{http_code}\n' http://localhost:8080/no-existe.html
+
+  # ---------------------------------------------------------------
+  # 2. Publicar — solo en push a main, y solo si "verificar" pasó.
+  # ---------------------------------------------------------------
+  publicar:
+    name: Publicar en Pages
+    needs: verificar
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write # publicar en Pages
+      id-token: write # autenticar el despliegue
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Armar la carpeta a publicar
+        # Solo el sitio: sin tools/, docs/, README ni el script de arranque local.
+        run: |
+          mkdir _site
+          cp index.html 404.html .nojekyll _site/
+          cp -r assets paginas _site/
+          ls -R _site | head -40
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
