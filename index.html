@@ -9,35 +9,68 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/boletix.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff2d6f'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23d8592e'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 <div id="app-header"></div>
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <canvas class="hero-bg" aria-hidden="true"></canvas>
-  <div class="wrap stack stack-5">
-    <div class="marquee-rule" aria-hidden="true"></div>
-    <div class="stack stack-4">
-      <span class="eyebrow">Ciudad de México · Boletaje justo</span>
-      <h1>Tu boleto<br>sin letras<br><em>chiquitas.</em></h1>
-      <p class="hero-sub">
-        El precio que ves ya trae comisión e IVA. Tu código cambia cada 15 segundos para que nadie
-        lo clone. Y si no puedes ir, lo revendes aquí mismo al precio que pagaste.
-      </p>
+  <div class="wrap">
+    <div class="hero-frame">
+      <div class="hero-topbar">
+        <span class="hero-mark">B<span>/</span>X<span class="hero-mark-dot"></span></span>
+        <nav class="hero-toplinks">
+          <a href="paginas/eventos.html">Eventos</a>
+          <a href="paginas/reventa.html">Reventa</a>
+          <a href="paginas/transparencia.html">Precio total</a>
+        </nav>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-disc-col">
+          <div class="hero-disc-ring" aria-hidden="true">
+            <div class="hero-disc">
+              <div class="hero-disc-core">
+                <span class="hero-disc-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <span class="hero-disc-label">Código activo</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-seek">
+            <span class="mono">0:00</span>
+            <span class="hero-seek-track"><i></i></span>
+            <span class="mono">0:15</span>
+          </div>
+          <p class="hero-seek-note">Tu QR se renueva cada 15&nbsp;s para que nadie lo clone.</p>
+        </div>
+
+        <div class="hero-copy">
+          <span class="eyebrow">Ciudad de México · Boletaje justo</span>
+          <h1>Tu boleto<br>sin letras<br><em>chiquitas.</em></h1>
+          <p class="hero-sub">
+            El precio que ves ya trae comisión e IVA. Y si no puedes ir, lo revendes aquí mismo al
+            precio que pagaste.
+          </p>
+
+          <form class="search-bar hero-search" id="hero-search" role="search">
+            <span class="txt-3" aria-hidden="true"></span>
+            <label class="sr" for="q">Buscar evento, artista o recinto</label>
+            <input id="q" type="search" placeholder="Busca un artista, evento o recinto" autocomplete="off">
+            <button class="btn btn-primary btn-sm" type="submit" style="border-radius:var(--r-full);padding-inline:1.1rem">Buscar</button>
+          </form>
+
+          <div class="hero-list-head">
+            <span class="hero-tag">En tendencia</span>
+          </div>
+          <ol class="hero-list" id="hero-list"></ol>
+          <a class="hero-viewmore" href="paginas/eventos.html">Ver más</a>
+        </div>
+      </div>
     </div>
 
-    <form class="search-bar" id="hero-search" role="search">
-      <span class="txt-3" aria-hidden="true"></span>
-      <label class="sr" for="q">Buscar evento, artista o recinto</label>
-      <input id="q" type="search" placeholder="Busca un artista, evento o recinto" autocomplete="off">
-      <button class="btn btn-primary btn-sm" type="submit" style="border-radius:var(--r-full);padding-inline:1.1rem">Buscar</button>
-    </form>
-
-    <div class="row row-wrap" style="gap:var(--s2)" id="hero-cats"></div>
-
-    <div class="grid g-2 g-md-4" id="hero-stats" style="gap:var(--s3)"></div>
+    <div class="row row-wrap hero-below" style="gap:var(--s2)" id="hero-cats"></div>
+    <div class="grid g-2 g-md-4 hero-below" id="hero-stats" style="gap:var(--s3)"></div>
   </div>
 </section>
 

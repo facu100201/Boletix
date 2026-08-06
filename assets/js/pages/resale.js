@@ -16,7 +16,7 @@
       return s + (BX.ptr(r.price) * 2.5 - BX.ptr(r.price)) * r.qty;
     }, 0);
     document.getElementById("rv-stats").innerHTML = [
-      ["Boletos publicados", UI.numf(tickets), "de " + items.length + " vendedores"],
+      ["Boletos publicados", '<span data-countup="' + tickets + '">0</span>', "de " + items.length + " vendedores"],
       ["Sobreprecio permitido", "0%", "tope duro al valor original"],
       ["Comisión al vendedor", "0%", "recuperas lo que pagaste"],
       ["Ahorro estimado", UI.compact(saved), "vs. reventa externa"],
