@@ -183,7 +183,7 @@
 
       '<form class="panel" id="ne-form"><div class="panel-body stack stack-4">' +
       '<div class="field"><label class="label" for="ne-title">Nombre del evento</label>' +
-      '<input class="input" id="ne-title" placeholder="Ej. Siberia Nocturna" required></div>' +
+      '<input class="input" id="ne-title" placeholder="Ej. Beach Fossils" required></div>' +
       '<div class="field"><label class="label" for="ne-sub">Subtítulo</label>' +
       '<input class="input" id="ne-sub" placeholder="Ej. Gira Ecos del Norte 2026"></div>' +
 

@@ -22,17 +22,35 @@
   /* ---------- Cifras del hero ---------- */
   const st = S.platformStats();
   const upcoming = S.upcoming();
+
+  /* ---------- Lista "en tendencia" del hero ---------- */
+  const swatches = ["var(--rosa)", "var(--ambar)", "var(--jade)", "var(--violeta)"];
+  document.getElementById("hero-list").innerHTML = upcoming.slice(0, 4).map(function (e, i) {
+    const venue = S.venue(e.venueId);
+    return (
+      '<li>' +
+      '<span class="hln-n">0' + (i + 1) + '</span>' +
+      '<span class="hln-sw" style="background:' + swatches[i % swatches.length] + '"></span>' +
+      '<a class="hln-body" href="' + P("evento.html?id=" + e.id) + '">' +
+      '<span class="hln-title">' + UI.esc(e.title) + '</span>' +
+      '<span class="hln-venue">' + UI.esc(venue.name) + ' · ' + UI.dateShort(e.date) + '</span>' +
+      '</a>' +
+      '<span class="hln-price">' + UI.money(S.minPrice(e)) + '</span>' +
+      '</li>'
+    );
+  }).join("");
+
   const heroStats = [
-    ["Eventos activos", UI.numf(st.liveEvents), "en 12 recintos de CDMX"],
-    ["Comisión Boletix", "7%", "plana, más IVA. Siempre."],
-    ["Cargos ocultos", "0", "el precio grande es el final"],
-    ["Reembolso", "72 h", "hasta 48 h antes del evento"],
+    ["Eventos activos", st.liveEvents, "", "en 12 recintos de CDMX"],
+    ["Comisión Boletix", 7, "%", "plana, más IVA. Siempre."],
+    ["Cargos ocultos", 0, "", "el precio grande es el final"],
+    ["Reembolso", 72, " h", "hasta 48 h antes del evento"],
   ];
   document.getElementById("hero-stats").innerHTML = heroStats.map(function (s) {
     return '<div class="card card-flat" style="padding:var(--s3)">' +
-      '<div class="stat-value" style="font-size:var(--t-xl)">' + s[1] + "</div>" +
+      '<div class="stat-value" style="font-size:var(--t-xl)"><span data-countup="' + s[1] + '" data-suffix="' + s[2] + '">0' + s[2] + "</span></div>" +
       '<div class="t-sm" style="font-weight:600">' + s[0] + "</div>" +
-      '<div class="t-xs txt-3">' + s[2] + "</div></div>";
+      '<div class="t-xs txt-3">' + s[3] + "</div></div>";
   }).join("");
 
   /* ---------- Próximos ---------- */

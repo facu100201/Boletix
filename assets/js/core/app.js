@@ -9,29 +9,6 @@
   const S = BX.store;
   const App = (BX.app = {});
 
-  /* ---------- Tema ---------- */
-  const THEME_KEY = "boletix.theme";
-  App.theme = function () {
-    try { return localStorage.getItem(THEME_KEY) || "auto"; } catch (e) { return "auto"; }
-  };
-  App.setTheme = function (t) {
-    try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
-    if (t === "auto") document.documentElement.removeAttribute("data-theme");
-    else document.documentElement.setAttribute("data-theme", t);
-    UI.$$("[data-poster]").forEach((n) => { n.dataset.painted = "0"; });
-    UI.hydratePosters();
-  };
-  App.toggleTheme = function () {
-    const cur = document.documentElement.getAttribute("data-theme");
-    const dark = cur ? cur === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
-    App.setTheme(dark ? "light" : "dark");
-    UI.toast(dark ? "Tema claro activado" : "Tema oscuro activado");
-  };
-  (function applyStoredTheme() {
-    const t = App.theme();
-    if (t !== "auto") document.documentElement.setAttribute("data-theme", t);
-  })();
-
   /* ---------- Rutas ----------
      Todas las rutas se escriben relativas a la raíz del proyecto y se
      resuelven con UI.url, porque el shell se dibuja igual en index.html
@@ -91,14 +68,12 @@
     if (u) {
       const initials = u.name.split(/\s+/).slice(0, 2).map((s) => s[0]).join("").toUpperCase();
       account =
-        '<button class="btn btn-icon btn-plain" id="bx-theme" aria-label="Cambiar tema">' + UI.icon("moon", 19) + "</button>" +
         '<div style="position:relative">' +
         '<button class="avatar" id="bx-avatar" aria-label="Menú de cuenta" aria-expanded="false" style="border:0;cursor:pointer">' + initials + "</button>" +
         '<div id="bx-menu" class="card hide" style="position:absolute;right:0;top:calc(100% + 10px);width:230px;padding:var(--s2);box-shadow:var(--shadow-lg);z-index:80"></div>' +
         "</div>";
     } else {
       account =
-        '<button class="btn btn-icon btn-plain" id="bx-theme" aria-label="Cambiar tema">' + UI.icon("moon", 19) + "</button>" +
         '<a class="btn btn-ghost btn-sm" href="' + P("login.html") + '" id="bx-enter">Entrar</a>' +
         '<a class="btn btn-primary btn-sm" href="' + P("registro.html") + '" id="bx-signup">Crear cuenta</a>';
     }
@@ -217,20 +192,6 @@
       document.body.classList.add("has-tabbar");
     }
 
-    // Tema
-    const tbtn = document.getElementById("bx-theme");
-    if (tbtn) {
-      const dark = document.documentElement.getAttribute("data-theme")
-        ? document.documentElement.getAttribute("data-theme") === "dark"
-        : window.matchMedia("(prefers-color-scheme: dark)").matches;
-      tbtn.innerHTML = UI.icon(dark ? "sun" : "moon", 19);
-      tbtn.addEventListener("click", function () {
-        App.toggleTheme();
-        const nowDark = document.documentElement.getAttribute("data-theme") === "dark";
-        tbtn.innerHTML = UI.icon(nowDark ? "sun" : "moon", 19);
-      });
-    }
-
     // Menú de cuenta
     const avatar = document.getElementById("bx-avatar");
     const menu = document.getElementById("bx-menu");
@@ -257,8 +218,17 @@
 
     fillIconSlots(document);
     UI.hydratePosters();
+    UI.revealAll();
     const hero = UI.$("canvas.hero-bg");
     if (hero) UI.paintHero(hero);
+
+    // Nav: se eleva ligeramente al hacer scroll, en vez de quedar plana siempre.
+    const navEl = UI.$(".nav");
+    if (navEl) {
+      const onScroll = function () { navEl.classList.toggle("is-scrolled", window.scrollY > 6); };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
   }
 
   /* Los huecos de icono se dejan vacíos en el HTML y se llenan aquí,

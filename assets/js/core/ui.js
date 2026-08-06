@@ -266,9 +266,13 @@
     if (event.lowStock) flags.push('<span class="badge badge-rojo">Últimos lugares</span>');
     else if (event.trending) flags.push('<span class="badge badge-ambar">En tendencia</span>');
     if (opts.flags) flags.push(opts.flags);
+    const media = event.image
+      ? '<img class="poster-photo" src="' + UI.url(event.image) + '" alt="' + UI.esc(event.title) + '">'
+      : "<canvas></canvas>";
     return (
-      '<div class="poster ' + (opts.ratio || "") + '" data-poster="' + event.id + '">' +
-      "<canvas></canvas>" +
+      '<div class="poster ' + (opts.ratio || "") + (event.image ? " has-photo" : "") + '"' +
+      (event.image ? "" : ' data-poster="' + event.id + '"') + ">" +
+      media +
       (flags.length ? '<div class="poster-flag">' + flags.join("") + "</div>" : "") +
       (opts.title ? '<div class="poster-title">' + UI.esc(event.title) + "</div>" : "") +
       "</div>"
@@ -298,7 +302,7 @@
     g.scale(dpr, dpr);
     const rand = rng("boletix-hero");
     g.clearRect(0, 0, w, h);
-    const spots = [["#ff2d6f", 0.16, 0.28], ["#ffb020", 0.78, 0.12], ["#8b5cf6", 0.52, 0.68]];
+    const spots = [["#d8592e", 0.16, 0.28], ["#e6c166", 0.78, 0.12], ["#dd672c", 0.52, 0.68]];
     spots.forEach(function (s) {
       const cx = w * s[1], cy = h * s[2], r = Math.max(w, h) * 0.62;
       const grad = g.createRadialGradient(cx, cy, 0, cx, cy, r);
@@ -507,4 +511,55 @@
       if (hero) UI.paintHero(hero);
     });
   });
+
+  /* ---------- Revelado al hacer scroll + contadores ----------
+     Cualquier tarjeta o panel que aparezca en el DOM se anima al
+     entrar en pantalla. No requiere que cada página lo invoque:
+     un MutationObserver la detecta y la pone en observación sola. */
+  const REVEAL_SEL = ".ecard, .stat, .card:not(#bx-menu), .stub, .panel";
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let revealObserver;
+  function revealObs() {
+    if (revealObserver) return revealObserver;
+    revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        UI.$$("[data-countup]", entry.target).forEach(UI.countUp);
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+    return revealObserver;
+  }
+  UI.revealAll = function (root) {
+    UI.$$(REVEAL_SEL, root || document).forEach(function (el, i) {
+      if (el.dataset.reveal) return;
+      el.dataset.reveal = "1";
+      if (reduceMotion) { el.classList.add("is-visible"); UI.$$("[data-countup]", el).forEach(UI.countUp); return; }
+      el.classList.add("reveal");
+      el.style.transitionDelay = (i % 8) * 45 + "ms";
+      revealObs().observe(el);
+    });
+  };
+
+  UI.countUp = function (el) {
+    if (el.dataset.counted) return;
+    el.dataset.counted = "1";
+    const target = parseFloat(el.dataset.countup);
+    if (!isFinite(target)) return;
+    if (reduceMotion || target === 0) { el.textContent = target + (el.dataset.suffix || ""); return; }
+    const suffix = el.dataset.suffix || "";
+    const dur = 900, t0 = performance.now();
+    (function tick(now) {
+      const p = Math.min(1, (now - t0) / dur);
+      const val = target * (1 - Math.pow(1 - p, 3));
+      el.textContent = (Number.isInteger(target) ? Math.round(val) : val.toFixed(1)) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  };
+
+  new MutationObserver(function () {
+    clearTimeout(window.__bxRevealT);
+    window.__bxRevealT = setTimeout(function () { UI.revealAll(); }, 60);
+  }).observe(document.documentElement, { childList: true, subtree: true });
 })();
