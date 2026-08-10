@@ -38,8 +38,19 @@
      desde index.html (raíz) como desde las páginas dentro de paginas/.
      Las rutas que se le pasan son siempre relativas a la raíz del proyecto. */
   UI.ROOT = (function () {
+    // Intenta obtener la raíz del script actual
     const s = document.currentScript;
-    if (s && s.src) return s.src.replace(/assets\/js\/core\/ui\.js.*$/, "");
+    if (s && s.src) {
+      const root = s.src.replace(/assets\/js\/core\/ui\.js.*$/, "");
+      if (root) return root;
+    }
+    
+    // Fallback: deduce desde document.location
+    // Busca el patrón /Boletix/ (o el nombre del repo) en la URL
+    const href = document.location.href;
+    const match = href.match(/^(.+?\/)(assets\/|paginas\/|index\.html|404\.html|$)/);
+    if (match) return match[1];
+    
     return "";
   })();
   UI.url = function (p) { return UI.ROOT + p; };
@@ -528,7 +539,7 @@
         UI.$$("[data-countup]", entry.target).forEach(UI.countUp);
         revealObserver.unobserve(entry.target);
       });
-    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+    }, { threshold: 0, rootMargin: "0px 0px 50% 0px" });
     return revealObserver;
   }
   UI.revealAll = function (root) {
