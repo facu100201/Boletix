@@ -98,7 +98,7 @@
     return (
       '<header class="nav"><div class="wrap nav-inner">' +
       '<a class="brand" href="' + UI.url("index.html") + '"><span class="brand-mark">B</span>Boletix</a>' +
-      '<nav class="nav-links grow" aria-label="Principal">' + links + "</nav>" +
+      '<nav class="nav-links" aria-label="Principal">' + links + "</nav>" +
       '<div class="grow"></div>' +
       '<button class="btn btn-icon btn-plain" id="bx-theme" type="button" aria-label="Cambiar a tema ' +
       (getTheme() === "light" ? "oscuro" : "claro") + '">' + UI.icon(themeIcon, 18) + "</button>" +

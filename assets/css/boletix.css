@@ -47,6 +47,7 @@
   --violeta-soft: rgba(76, 29, 149, 0.22);
 
   --rojo: #ff3d68;
+  --rojo-300: #ff7d9c;
   --rojo-soft: rgba(255, 61, 104, 0.18);
 
   --accent: var(--rosa);
@@ -58,8 +59,8 @@
   --glow: 0 0 0 1px rgba(155, 92, 255, .45), 0 10px 34px -10px rgba(155, 92, 255, .6);
 
   /* Tipografía */
-  --f-display: "Alte Haas Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --f-body: "Alte Haas Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Montserrat", "Helvetica Neue", Arial, sans-serif;
   --f-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   --t-xs: .6875rem;
@@ -281,7 +282,7 @@ p:last-child { margin-bottom: 0; }
 .btn-plain { --btn-bg: transparent; --btn-bd: transparent; color: var(--txt-2); }
 .btn-plain:hover { background: var(--surface-2); color: var(--txt); border-color: transparent; transform: translateY(-1px); }
 
-.btn-danger { --btn-bg: transparent; --btn-bd: var(--rojo); color: #e8846c; }
+.btn-danger { --btn-bg: transparent; --btn-bd: var(--rojo); color: var(--rojo-300); }
 .btn-danger:hover { background: var(--rojo); border-color: transparent; color: #fff; }
 
 .btn-sm { padding: .35rem .7rem; min-height: 34px; font-size: var(--t-sm); border-radius: var(--r-sm); }
@@ -326,7 +327,7 @@ p:last-child { margin-bottom: 0; }
 .badge-rosa  { background: var(--rosa-soft);  color: var(--rosa-300); }
 .badge-ambar { background: var(--ambar-soft); color: var(--ambar); }
 .badge-jade  { background: var(--jade-soft);  color: var(--ambar); }
-.badge-rojo  { background: var(--rojo-soft);  color: #e8846c; }
+.badge-rojo  { background: var(--rojo-soft);  color: var(--rojo-300); }
 .badge-violeta { background: var(--violeta-soft); color: var(--violeta); }
 
 /* ---------- 6. Superficies ---------- */
@@ -456,7 +457,7 @@ input[type="range"] {
      los costados, no es una barra flotante. */
   border-radius: 0 0 var(--r-lg) var(--r-lg);
 }
-.nav-inner { display: flex; align-items: center; gap: var(--s3); height: var(--nav-h); }
+.nav-inner { position: relative; display: flex; align-items: center; gap: var(--s3); height: var(--nav-h); }
 .brand { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--f-display); font-weight: 800; font-size: 1.2rem; letter-spacing: -.03em; }
 .brand-mark {
   width: 26px; height: 26px; flex: none;
@@ -474,10 +475,12 @@ input[type="range"] {
 .brand-mark::after { right: -3.5px; }
 
 .nav-links { display: none; gap: var(--s1); }
-@media (min-width: 900px) { .nav-links { display: flex; } }
+@media (min-width: 900px) {
+  .nav-links { display: flex; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+}
 .nav-link {
   padding: .5rem .7rem; border-radius: var(--r-sm);
-  font-size: var(--t-base); font-weight: 500; color: var(--txt-2);
+  font-size: var(--t-sm); font-weight: 500; color: var(--txt-2);
   transition: color .15s, background .15s;
 }
 .nav-link:hover { color: var(--txt); background: var(--surface-2); }
@@ -681,7 +684,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--t-sm); min-
 .stat-label { font-size: var(--t-sm); color: var(--txt-2); }
 .stat-value { font-family: var(--f-mono); font-size: var(--t-2xl); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
 .stat-delta { font-size: var(--t-sm); font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
-.delta-up { color: var(--ambar); } .delta-down { color: #e8846c; }
+.delta-up { color: var(--ambar); } .delta-down { color: var(--rojo-300); }
 
 /* ---------- 18. Sidebar de panel ---------- */
 .console { display: grid; grid-template-columns: 1fr; gap: var(--s5); align-items: start; }
@@ -917,6 +920,30 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--t-sm); min-
 .hero-search input { color: #f4f1fc; }
 .hero-search input::placeholder { color: rgba(244, 241, 252, .5); }
 .hero-search { background: rgba(244, 241, 252, .1); border-color: rgba(244, 241, 252, .22); }
+
+/* Tema claro: la foto del hero cambia a la versión clara, así que su
+   texto pasa de claro-fijo a oscuro-fijo (la foto oscura nunca convive
+   con el tema claro, y viceversa). */
+:root[data-theme="light"] .hero-frame {
+  background-image: url("../img/hero-background-light.jpg");
+  background-color: #f5f2fb;
+}
+:root[data-theme="light"] .hero-frame::before {
+  background: linear-gradient(90deg, #f5f2fb 0%, rgba(245, 242, 251, .82) 42%, transparent 72%);
+}
+:root[data-theme="light"] .hero-topbar { border-bottom-color: rgba(28, 19, 48, .14); }
+:root[data-theme="light"] .hero-mark { color: #1c1330; }
+:root[data-theme="light"] .hero-mark span { color: var(--rosa-600); }
+:root[data-theme="light"] .hero-mark-dot { background: var(--rosa-600); }
+:root[data-theme="light"] .hero-toplinks a { color: rgba(28, 19, 48, .65); }
+:root[data-theme="light"] .hero-toplinks a:hover { color: #1c1330; }
+:root[data-theme="light"] .hero-frame .eyebrow { color: rgba(28, 19, 48, .65); }
+:root[data-theme="light"] .hero-frame h1 { color: #1c1330; }
+:root[data-theme="light"] .hero-frame h1 em { color: var(--rosa-600); }
+:root[data-theme="light"] .hero-frame .hero-sub { color: rgba(28, 19, 48, .8); }
+:root[data-theme="light"] .hero-search { background: rgba(28, 19, 48, .06); border-color: rgba(28, 19, 48, .18); }
+:root[data-theme="light"] .hero-search input { color: #1c1330; }
+:root[data-theme="light"] .hero-search input::placeholder { color: rgba(28, 19, 48, .48); }
 
 .hero-below { margin-top: var(--s6); }
 
