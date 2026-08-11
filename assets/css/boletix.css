@@ -108,7 +108,12 @@
     radial-gradient(ellipse 900px 560px at 12% -8%, rgba(155, 92, 255, .12), transparent 60%),
     radial-gradient(ellipse 760px 520px at 108% 8%, rgba(76, 29, 149, .09), transparent 60%),
     radial-gradient(ellipse 820px 560px at 50% 112%, rgba(155, 92, 255, .1), transparent 62%),
+    url("../img/star-tile.png"),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: auto, auto, auto, 720px 960px, 160px 160px;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+  background-attachment: fixed, fixed, fixed, scroll, fixed;
+  background-blend-mode: normal, normal, normal, normal, overlay;
 }
 
 /* ---------- 2. Base ---------- */
@@ -133,11 +138,12 @@ body {
     radial-gradient(ellipse 900px 560px at 12% -8%, rgba(155, 92, 255, .17), transparent 60%),
     radial-gradient(ellipse 760px 520px at 108% 8%, rgba(76, 29, 149, .18), transparent 60%),
     radial-gradient(ellipse 820px 560px at 50% 112%, rgba(155, 92, 255, .14), transparent 62%),
+    url("../img/star-tile.png"),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: auto, auto, auto, 160px 160px;
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
-  background-attachment: fixed, fixed, fixed, fixed;
-  background-blend-mode: normal, normal, normal, overlay;
+  background-size: auto, auto, auto, 720px 960px, 160px 160px;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+  background-attachment: fixed, fixed, fixed, scroll, fixed;
+  background-blend-mode: normal, normal, normal, normal, overlay;
   color: var(--txt);
   font-family: var(--f-body);
   font-size: var(--t-base);
@@ -816,6 +822,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--t-sm); min-
    tema activo — su texto usa colores claros fijos, no los tokens
    --txt (que sí cambian con el tema), para seguir siendo legible. */
 .hero-topbar {
+  position: relative;
   display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
   padding-bottom: var(--s4);
   margin-bottom: var(--s6);
@@ -825,7 +832,9 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--t-sm); min-
 .hero-mark span { color: var(--rosa-300); }
 .hero-mark-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--rosa-300); margin-left: 8px; vertical-align: middle; box-shadow: 0 0 8px 1px rgba(155, 92, 255, .8); }
 .hero-toplinks { display: none; gap: var(--s5); }
-@media (min-width: 640px) { .hero-toplinks { display: flex; } }
+@media (min-width: 640px) {
+  .hero-toplinks { display: flex; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+}
 .hero-toplinks a {
   font-family: var(--f-mono); font-size: var(--t-xs); font-weight: 500;
   letter-spacing: .1em; text-transform: uppercase; color: rgba(244, 241, 252, .7);
