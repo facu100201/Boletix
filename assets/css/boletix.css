@@ -27,11 +27,15 @@
 
   --txt: #f4f1fc;
   --txt-2: rgba(244, 241, 252, 0.68);
-  --txt-3: rgba(244, 241, 252, 0.44);
+  --txt-3: rgba(244, 241, 252, 0.48); /* 4.6:1 sobre --bg — mínimo AA para texto pequeño */
 
-  /* Acentos — una sola familia: morado. Se diferencian por luz, no por matiz. */
+  /* Acentos — una sola familia: morado. Se diferencian por luz, no por matiz.
+     rosa/rosa-600/rosa-700 sirven para relleno sólido (botones, marca);
+     los tonos de badge/enlace están calculados aparte para dar 4.5:1
+     como texto plano y también sobre su propio fondo -soft (ver §5). */
   --rosa: #9b5cff;
   --rosa-600: #7c3aed;
+  --rosa-700: #6300ff;
   --rosa-300: #c9aeff;
   --rosa-soft: rgba(155, 92, 255, 0.18);
 
@@ -49,6 +53,16 @@
   --rojo: #ff3d68;
   --rojo-300: #ff7d9c;
   --rojo-soft: rgba(255, 61, 104, 0.18);
+
+  /* Texto de acento — 4.5:1+ como texto plano y sobre su propio -soft.
+     Separados de rosa/ambar/jade/violeta/rojo porque esos also se usan
+     como relleno sólido, donde la regla de contraste es otra (texto
+     blanco encima, no el color contra el fondo de la página). */
+  --rosa-text: #ad72ff;
+  --ambar-text: #ca5fff;
+  --jade-text: #9c7aff;
+  --violeta-text: #b66dff;
+  --rojo-text: #ff4775;
 
   --accent: var(--rosa);
   --accent-2: #4c1d95;
@@ -98,7 +112,17 @@
 
   --txt: #1c1330;
   --txt-2: rgba(28, 19, 48, 0.66);
-  --txt-3: rgba(28, 19, 48, 0.44);
+  --txt-3: rgba(28, 19, 48, 0.6); /* 4.5:1 mínimo sobre --bg claro */
+
+  /* --accent en morado vívido (--rosa) da solo 3.5:1 sobre fondo claro,
+     así que aquí se vuelve más oscuro; y los -text se invierten a
+     tonos oscuros para seguir dando 4.5:1 sobre blanco. */
+  --accent: var(--rosa-600);
+  --rosa-text: #6700f8;
+  --ambar-text: #8900ce;
+  --jade-text: #571eff;
+  --violeta-text: #7500ea;
+  --rojo-text: #b3002d;
 
   --shadow-sm: 0 1px 2px rgba(76, 29, 149, .1);
   --shadow: 0 10px 28px -10px rgba(76, 29, 149, .22);
@@ -265,10 +289,10 @@ p:last-child { margin-bottom: 0; }
 
 .btn-primary {
   --btn-fg: #fff; --btn-bd: transparent;
-  background: var(--accent);
+  background: var(--rosa-600); /* no el --accent vivo: blanco sobre --rosa da solo 3.9:1 */
   box-shadow: var(--glow);
 }
-.btn-primary:hover { background: var(--rosa-600); border-color: transparent; box-shadow: var(--glow), var(--shadow); }
+.btn-primary:hover { background: var(--rosa-700); border-color: transparent; box-shadow: var(--glow), var(--shadow); }
 
 .btn-amber { --btn-bg: var(--ambar); --btn-fg: #2e1065; --btn-bd: transparent; }
 .btn-amber:hover { background: var(--ambar-600); border-color: transparent; }
@@ -277,12 +301,12 @@ p:last-child { margin-bottom: 0; }
 .btn-jade:hover { background: var(--jade-600); border-color: transparent; }
 
 .btn-ghost { --btn-bg: rgba(255, 255, 255, .04); --btn-bd: var(--line-strong); backdrop-filter: blur(10px); }
-.btn-ghost:hover { background: var(--rosa-soft); border-color: var(--accent); color: var(--rosa-300); }
+.btn-ghost:hover { background: var(--rosa-soft); border-color: var(--accent); color: var(--rosa-text); }
 
 .btn-plain { --btn-bg: transparent; --btn-bd: transparent; color: var(--txt-2); }
 .btn-plain:hover { background: var(--surface-2); color: var(--txt); border-color: transparent; transform: translateY(-1px); }
 
-.btn-danger { --btn-bg: transparent; --btn-bd: var(--rojo); color: var(--rojo-300); }
+.btn-danger { --btn-bg: transparent; --btn-bd: var(--rojo); color: var(--rojo-text); }
 .btn-danger:hover { background: var(--rojo); border-color: transparent; color: #fff; }
 
 .btn-sm { padding: .35rem .7rem; min-height: 34px; font-size: var(--t-sm); border-radius: var(--r-sm); }
@@ -308,7 +332,7 @@ p:last-child { margin-bottom: 0; }
 }
 .chip:hover { color: var(--txt); border-color: var(--txt-3); }
 .chip[aria-pressed="true"], .chip.is-on {
-  background: var(--accent); border-color: transparent; color: #fff;
+  background: var(--rosa-600); border-color: transparent; color: #fff;
 }
 
 .badge {
@@ -324,11 +348,11 @@ p:last-child { margin-bottom: 0; }
   color: var(--txt-2);
   white-space: nowrap;
 }
-.badge-rosa  { background: var(--rosa-soft);  color: var(--rosa-300); }
-.badge-ambar { background: var(--ambar-soft); color: var(--ambar); }
-.badge-jade  { background: var(--jade-soft);  color: var(--ambar); }
-.badge-rojo  { background: var(--rojo-soft);  color: var(--rojo-300); }
-.badge-violeta { background: var(--violeta-soft); color: var(--violeta); }
+.badge-rosa  { background: var(--rosa-soft);  color: var(--rosa-text); }
+.badge-ambar { background: var(--ambar-soft); color: var(--ambar-text); }
+.badge-jade  { background: var(--jade-soft);  color: var(--jade-text); }
+.badge-rojo  { background: var(--rojo-soft);  color: var(--rojo-text); }
+.badge-violeta { background: var(--violeta-soft); color: var(--violeta-text); }
 
 /* ---------- 6. Superficies ---------- */
 .card {
@@ -431,7 +455,7 @@ input[type="range"] {
   padding-right: 2.2rem;
 }
 .hint { font-size: var(--t-xs); color: var(--txt-3); }
-.error-txt { font-size: var(--t-xs); color: var(--rojo); }
+.error-txt { font-size: var(--t-xs); color: var(--rojo-text); }
 
 .check { display: flex; align-items: start; gap: var(--s2); cursor: pointer; font-size: var(--t-sm); color: var(--txt-2); }
 .check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--accent); flex: none; }
@@ -446,6 +470,39 @@ input[type="range"] {
   -webkit-backdrop-filter: blur(12px);
 }
 .search-bar input { flex: 1; border: 0; background: transparent; outline: none; min-height: 44px; min-width: 0; }
+
+/* ---------- 7b. Autocompletado del buscador ---------- */
+.ac-panel {
+  position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 90;
+  max-height: min(420px, 70vh); overflow-y: auto;
+  background: linear-gradient(165deg, var(--glass-hi), var(--ink-900) 45%);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+  padding: var(--s2);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: var(--shadow-lg);
+  animation: ac-in .16s cubic-bezier(.2, .7, .2, 1);
+}
+@keyframes ac-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.ac-group + .ac-group { margin-top: var(--s2); padding-top: var(--s2); border-top: 1px solid var(--line); }
+.ac-group-label {
+  display: block; padding: 6px var(--s2) 4px;
+  font-family: var(--f-mono); font-size: var(--t-xs); font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--txt-3);
+}
+.ac-item {
+  display: flex; align-items: center; gap: var(--s3);
+  width: 100%; min-height: 44px; padding: 6px var(--s2);
+  border: 0; border-radius: var(--r-sm); background: transparent; color: inherit;
+  text-align: left; cursor: pointer;
+}
+.ac-item.is-active, .ac-item:hover { background: var(--rosa-soft); }
+.ac-item-icon { flex: none; display: grid; place-items: center; color: var(--rosa-text); }
+.ac-item-body { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.ac-item-label { font-size: var(--t-sm); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ac-item-sub { font-size: var(--t-xs); color: var(--txt-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ac-empty { padding: var(--s2); }
 
 /* ---------- 8. Navegación ---------- */
 .nav {
@@ -599,7 +656,7 @@ body.has-tabbar { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bot
 .price-line strong { color: var(--txt); font-weight: 600; }
 .price-total { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s3); margin-top: var(--s2); padding-top: var(--s2); border-top: 1px dashed var(--line-strong); }
 .price-total .amount { font-family: var(--f-mono); font-size: var(--t-lg); font-weight: 500; }
-.savings { display: flex; align-items: center; gap: 6px; font-size: var(--t-sm); color: var(--ambar); font-weight: 600; }
+.savings { display: flex; align-items: center; gap: 6px; font-size: var(--t-sm); color: var(--ambar-text); font-weight: 600; }
 
 /* ---------- 12. Barra de acción fija (móvil) ---------- */
 .actionbar {
@@ -684,7 +741,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--t-sm); min-
 .stat-label { font-size: var(--t-sm); color: var(--txt-2); }
 .stat-value { font-family: var(--f-mono); font-size: var(--t-2xl); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
 .stat-delta { font-size: var(--t-sm); font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
-.delta-up { color: var(--ambar); } .delta-down { color: var(--rojo-300); }
+.delta-up { color: var(--ambar-text); } .delta-down { color: var(--rojo-text); }
 
 /* ---------- 18. Sidebar de panel ---------- */
 .console { display: grid; grid-template-columns: 1fr; gap: var(--s5); align-items: start; }
@@ -788,7 +845,7 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--t-sm); min-
 
 /* ---------- 25. Contador de sesión ---------- */
 .countdown { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-weight: 500; }
-.countdown.is-low { color: var(--rojo); }
+.countdown.is-low { color: var(--rojo-text); }
 
 /* ---------- 26. Footer ----------
    Panel de vidrio con las esquinas de arriba redondeadas — hace eco

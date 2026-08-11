@@ -86,7 +86,7 @@
       account =
         '<div style="position:relative">' +
         '<button class="avatar" id="bx-avatar" aria-label="Menú de cuenta" aria-expanded="false" style="border:0;cursor:pointer">' + initials + "</button>" +
-        '<div id="bx-menu" class="card hide" style="position:absolute;right:0;top:calc(100% + 10px);width:230px;padding:var(--s2);box-shadow:var(--shadow-lg);z-index:80"></div>' +
+        '<div id="bx-menu" class="card no-reveal hide" style="position:absolute;right:0;top:calc(100% + 10px);width:230px;padding:var(--s2);box-shadow:var(--shadow-lg);z-index:80"></div>' +
         "</div>";
     } else {
       account =

@@ -34,18 +34,18 @@
 
   /* ---------- Recintos de mediana escala en CDMX ---------- */
   BX.VENUES = [
-    { id: "v01", name: "Teatro Metropólitan",   alcaldia: "Cuauhtémoc",       address: "Independencia 90, Centro",            capacity: 3165, layout: "teatro",  metro: "Juárez / Balderas" },
-    { id: "v02", name: "Auditorio BlackBerry",  alcaldia: "Cuauhtémoc",       address: "Av. Chapultepec 56, Juárez",          capacity: 2500, layout: "general", metro: "Cuauhtémoc" },
-    { id: "v03", name: "El Plaza Condesa",      alcaldia: "Cuauhtémoc",       address: "Juan Escutia 4, Condesa",             capacity: 1800, layout: "general", metro: "Chapultepec" },
-    { id: "v04", name: "Lunario",               alcaldia: "Miguel Hidalgo",   address: "Paseo de la Reforma 50, Polanco",     capacity: 1000, layout: "mesas",   metro: "Auditorio" },
-    { id: "v05", name: "Foro Indie Rocks!",     alcaldia: "Cuauhtémoc",       address: "Zacatecas 39, Roma Norte",            capacity: 400,  layout: "general", metro: "Hospital General" },
-    { id: "v06", name: "Teatro de la Ciudad",   alcaldia: "Cuauhtémoc",       address: "Donceles 36, Centro Histórico",       capacity: 1300, layout: "teatro",  metro: "Allende" },
-    { id: "v07", name: "Frontón México",        alcaldia: "Cuauhtémoc",       address: "Plaza de la República 17, Tabacalera",capacity: 2200, layout: "general", metro: "Revolución" },
-    { id: "v08", name: "Teatro Insurgentes",    alcaldia: "Benito Juárez",    address: "Av. Insurgentes Sur 1587, San José",  capacity: 1100, layout: "teatro",  metro: "Barranca del Muerto" },
-    { id: "v09", name: "Parque Bicentenario",   alcaldia: "Azcapotzalco",     address: "Av. 5 de Mayo 290, Nueva El Rosario", capacity: 12000,layout: "campo",   metro: "Refinería" },
-    { id: "v10", name: "Centro Cultural Roma",  alcaldia: "Cuauhtémoc",       address: "Orizaba 122, Roma Norte",             capacity: 260,  layout: "general", metro: "Insurgentes" },
-    { id: "v11", name: "Deportivo Xochimilco",  alcaldia: "Xochimilco",       address: "Prol. División del Norte s/n",        capacity: 4500, layout: "campo",   metro: "Xochimilco (TL)" },
-    { id: "v12", name: "Sala Nezahualcóyotl",   alcaldia: "Coyoacán",         address: "Insurgentes Sur 3000, C.U.",          capacity: 2300, layout: "teatro",  metro: "C.U." },
+    { id: "v01", name: "Teatro Metropólitan",   alcaldia: "Cuauhtémoc",       address: "Independencia 90, Centro",            capacity: 3165, layout: "teatro",  metro: "Juárez / Balderas",       lat: 19.4326, lng: -99.1401 },
+    { id: "v02", name: "Auditorio BlackBerry",  alcaldia: "Cuauhtémoc",       address: "Av. Chapultepec 56, Juárez",          capacity: 2500, layout: "general", metro: "Cuauhtémoc",              lat: 19.4270, lng: -99.1590 },
+    { id: "v03", name: "El Plaza Condesa",      alcaldia: "Cuauhtémoc",       address: "Juan Escutia 4, Condesa",             capacity: 1800, layout: "general", metro: "Chapultepec",             lat: 19.4128, lng: -99.1712 },
+    { id: "v04", name: "Lunario",               alcaldia: "Miguel Hidalgo",   address: "Paseo de la Reforma 50, Polanco",     capacity: 1000, layout: "mesas",   metro: "Auditorio",               lat: 19.4194, lng: -99.1907 },
+    { id: "v05", name: "Foro Indie Rocks!",     alcaldia: "Cuauhtémoc",       address: "Zacatecas 39, Roma Norte",            capacity: 400,  layout: "general", metro: "Hospital General",        lat: 19.4177, lng: -99.1622 },
+    { id: "v06", name: "Teatro de la Ciudad",   alcaldia: "Cuauhtémoc",       address: "Donceles 36, Centro Histórico",       capacity: 1300, layout: "teatro",  metro: "Allende",                 lat: 19.4361, lng: -99.1389 },
+    { id: "v07", name: "Frontón México",        alcaldia: "Cuauhtémoc",       address: "Plaza de la República 17, Tabacalera",capacity: 2200, layout: "general", metro: "Revolución",              lat: 19.4370, lng: -99.1590 },
+    { id: "v08", name: "Teatro Insurgentes",    alcaldia: "Benito Juárez",    address: "Av. Insurgentes Sur 1587, San José",  capacity: 1100, layout: "teatro",  metro: "Barranca del Muerto",     lat: 19.3720, lng: -99.1750 },
+    { id: "v09", name: "Parque Bicentenario",   alcaldia: "Azcapotzalco",     address: "Av. 5 de Mayo 290, Nueva El Rosario", capacity: 12000,layout: "campo",   metro: "Refinería",               lat: 19.4870, lng: -99.2010 },
+    { id: "v10", name: "Centro Cultural Roma",  alcaldia: "Cuauhtémoc",       address: "Orizaba 122, Roma Norte",             capacity: 260,  layout: "general", metro: "Insurgentes",             lat: 19.4183, lng: -99.1633 },
+    { id: "v11", name: "Deportivo Xochimilco",  alcaldia: "Xochimilco",       address: "Prol. División del Norte s/n",        capacity: 4500, layout: "campo",   metro: "Xochimilco (TL)",         lat: 19.2647, lng: -99.1032 },
+    { id: "v12", name: "Sala Nezahualcóyotl",   alcaldia: "Coyoacán",         address: "Insurgentes Sur 3000, C.U.",          capacity: 2300, layout: "teatro",  metro: "C.U.",                    lat: 19.3325, lng: -99.1866 },
   ];
 
   /* ---------- Promotores (clientes B2B) ---------- */

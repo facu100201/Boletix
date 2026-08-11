@@ -128,6 +128,13 @@
     return z ? Math.max(0, z.capacity - z.sold) : 0;
   };
   S.minPrice = function (event) { return Math.min.apply(null, event.zones.map((z) => z.price)); };
+  /* Distancia en línea recta (Haversine), para "cerca de mí". */
+  S.distanceKm = function (lat1, lng1, lat2, lng2) {
+    const R = 6371, toRad = (d) => (d * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  };
   S.maxPrice = function (event) { return Math.max.apply(null, event.zones.map((z) => z.price)); };
 
   /* ---------- Tope anti-bots ---------- */

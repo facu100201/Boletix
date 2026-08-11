@@ -12,6 +12,10 @@
     maxPrice: 0,
     accessible: false,
     sort: UI.param("orden") || "fecha",
+    cuando: UI.param("cuando") || "",   // filtro rápido de fecha ("fin de semana", etc.)
+    genre: UI.param("genero") || "",    // etiqueta de género elegida en "Por género"
+    near: false,                        // "Cerca de mí" activo
+    coords: null,                       // { lat, lng } una vez que el navegador la comparte
   };
 
   const $q = document.getElementById("q");
@@ -38,11 +42,86 @@
     renderCats(); render();
   });
 
+  /* ---------- Filtros rápidos ---------- */
+  function topGenres() {
+    const freq = new Map();
+    S.upcoming().forEach((ev) => ev.tags.forEach((tg) => freq.set(tg, (freq.get(tg) || 0) + 1)));
+    return Array.from(freq.entries()).sort((a, b) => b[1] - a[1]).slice(0, 8).map((e) => e[0]);
+  }
+  function renderQuick() {
+    document.getElementById("ex-quick").innerHTML =
+      '<button class="chip' + (state.cuando === "fin de semana" ? " is-on" : "") + '" data-quick="finde" aria-pressed="' + (state.cuando === "fin de semana") + '">' +
+      UI.icon("calendar", 14) + "Este fin de semana</button>" +
+      '<button class="chip' + (state.maxPrice === 500 ? " is-on" : "") + '" data-quick="price500" aria-pressed="' + (state.maxPrice === 500) + '">' +
+      UI.icon("tag", 14) + "Menos de $500</button>" +
+      '<button class="chip' + (state.near ? " is-on" : "") + '" data-quick="near" aria-pressed="' + state.near + '">' +
+      UI.icon("pin", 14) + (state.near ? "Cerca de mí ✓" : "Cerca de mí") + "</button>" +
+      '<div style="position:relative;display:inline-flex">' +
+      '<button class="chip' + (state.genre ? " is-on" : "") + '" id="ex-genre-btn" aria-haspopup="true" aria-expanded="false">' +
+      UI.icon("music", 14) + (state.genre ? "#" + state.genre : "Por género") + "</button>" +
+      '<div class="card no-reveal hide" id="ex-genre-menu" role="menu" style="position:absolute;left:0;top:calc(100% + 8px);z-index:70;padding:var(--s2);width:200px;max-height:260px;overflow-y:auto"></div>' +
+      "</div>";
+  }
+  function toggleNear() {
+    if (state.near) { state.near = false; state.coords = null; renderQuick(); render(); return; }
+    if (!navigator.geolocation) { UI.toast("Tu navegador no comparte ubicación.", "err"); return; }
+    UI.toast("Buscando tu ubicación…");
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      state.near = true;
+      state.coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      renderQuick(); render();
+      UI.toast("Ordenado por cercanía", "ok");
+    }, function () {
+      UI.toast("No pudimos usar tu ubicación. Revisa el permiso del navegador.", "err");
+    }, { timeout: 8000 });
+  }
+  document.getElementById("ex-quick").addEventListener("click", function (e) {
+    const genreItem = e.target.closest("[data-genre]");
+    if (genreItem) {
+      state.genre = genreItem.dataset.genre;
+      document.getElementById("ex-genre-menu").classList.add("hide");
+      renderQuick(); render();
+      return;
+    }
+    const genreBtn = e.target.closest("#ex-genre-btn");
+    if (genreBtn) {
+      const menu = document.getElementById("ex-genre-menu");
+      const genres = topGenres();
+      menu.innerHTML = (state.genre ? '<button class="side-item" data-genre="">' + UI.icon("x", 15) + "Quitar filtro</button>" : "") +
+        genres.map((g) => '<button class="side-item' + (state.genre === g ? " is-active" : "") + '" data-genre="' + g + '">#' + UI.esc(g) + "</button>").join("");
+      const open = !menu.classList.contains("hide");
+      menu.classList.toggle("hide");
+      genreBtn.setAttribute("aria-expanded", String(!open));
+      return;
+    }
+    const b = e.target.closest("[data-quick]");
+    if (!b) return;
+    const k = b.dataset.quick;
+    if (k === "finde") { state.cuando = state.cuando === "fin de semana" ? "" : "fin de semana"; renderQuick(); render(); }
+    else if (k === "price500") { state.maxPrice = state.maxPrice === 500 ? 0 : 500; renderQuick(); render(); }
+    else if (k === "near") toggleNear();
+  });
+  document.addEventListener("click", function (e) {
+    const menu = document.getElementById("ex-genre-menu");
+    const btn = document.getElementById("ex-genre-btn");
+    if (menu && !menu.classList.contains("hide") && !e.target.closest("#ex-genre-btn") && !e.target.closest("#ex-genre-menu")) {
+      menu.classList.add("hide");
+      if (btn) btn.setAttribute("aria-expanded", "false");
+    }
+  });
+
   /* ---------- Búsqueda ---------- */
   let t;
   $q.addEventListener("input", function () {
     clearTimeout(t);
     t = setTimeout(function () { state.q = $q.value.trim(); render(); }, 180);
+  });
+  UI.attachSearchAutocomplete(document.getElementById("ex-search"), {
+    onSelect: function (item) {
+      if (item.type === "event") { location.href = "evento.html?id=" + item.event.id; return; }
+      if (item.type === "venue") { $q.value = item.venue.name; state.q = item.venue.name; render(); return; }
+      if (item.type === "date") { state.cuando = item.word; $q.value = ""; state.q = ""; renderQuick(); render(); return; }
+    },
   });
   document.getElementById("ex-search").addEventListener("submit", (e) => e.preventDefault());
   document.getElementById("ex-clear").innerHTML = UI.icon("x", 17);
@@ -142,6 +221,11 @@
       const diff = (new Date(ev.date) - Date.now()) / 86400000;
       if (diff > days) return false;
     }
+    if (state.cuando) {
+      const pred = UI.dateGroupPredicate(state.cuando);
+      if (pred && !pred(ev)) return false;
+    }
+    if (state.genre && ev.tags.indexOf(state.genre) < 0) return false;
     if (state.q) {
       const hay = [ev.title, ev.subtitle, venue.name, venue.alcaldia, ev.tags.join(" "), ev.lineup.join(" "), ev.about]
         .join(" ").toLowerCase();
@@ -152,6 +236,13 @@
   }
 
   function sortList(list) {
+    if (state.near && state.coords) {
+      return list.sort((a, b) => {
+        const va = S.venue(a.venueId), vb = S.venue(b.venueId);
+        return S.distanceKm(state.coords.lat, state.coords.lng, va.lat, va.lng) -
+          S.distanceKm(state.coords.lat, state.coords.lng, vb.lat, vb.lng);
+      });
+    }
     const by = {
       fecha: (a, b) => new Date(a.date) - new Date(b.date),
       populares: (a, b) => b.sold / b.capacity - a.sold / a.capacity,
@@ -177,8 +268,10 @@
     if (rb) rb.addEventListener("click", function () {
       state.q = ""; state.cat = ""; state.venue = ""; state.alcaldia = "";
       state.when = ""; state.maxPrice = 0; state.accessible = false;
-      $q.value = ""; renderCats(); updateFilterButton(); render();
+      state.cuando = ""; state.genre = ""; state.near = false; state.coords = null;
+      $q.value = ""; renderCats(); renderQuick(); updateFilterButton(); render();
     });
+    UI.revealAll($grid);
     UI.hydratePosters($grid);
 
     const url = new URL(location.href);
@@ -186,10 +279,13 @@
     if (state.q) url.searchParams.set("q", state.q);
     if (state.cat) url.searchParams.set("cat", state.cat);
     if (state.sort !== "fecha") url.searchParams.set("orden", state.sort);
+    if (state.cuando) url.searchParams.set("cuando", state.cuando);
+    if (state.genre) url.searchParams.set("genero", state.genre);
     history.replaceState(null, "", url);
   }
 
   renderCats();
+  renderQuick();
   updateFilterButton();
   render();
 })();

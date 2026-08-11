@@ -470,6 +470,198 @@
     });
   };
 
+  /* ---------- Buscador con autocompletado ----------
+     Se cuelga de un <form class="search-bar"> que ya tiene su <input>.
+     Agrupa resultados por Artistas / Recintos / Fechas, se navega con
+     flechas + Enter (patrón combobox/listbox de ARIA) y cierra con Esc
+     o al perder el foco. options.onSelect(item) decide qué hacer con
+     el resultado elegido (navegar o filtrar in-place). */
+  const MESES_KEY = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  const DATE_WORDS = ["hoy", "mañana", "fin de semana", "finde", "esta semana", "este mes"].concat(MESES_KEY);
+
+  function stripAccents(s) {
+    return s.normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+  function dateGroupPredicate(word) {
+    const now = new Date();
+    const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const today = startOfDay(now);
+    if (word === "hoy") return (ev) => startOfDay(new Date(ev.date)).getTime() === today.getTime();
+    if (word === "mañana") {
+      const t = new Date(today); t.setDate(t.getDate() + 1);
+      return (ev) => startOfDay(new Date(ev.date)).getTime() === t.getTime();
+    }
+    if (word === "fin de semana" || word === "finde") {
+      const day = now.getDay();
+      const toSat = (6 - day + 7) % 7;
+      const sat = new Date(today); sat.setDate(sat.getDate() + toSat);
+      const mon = new Date(sat); mon.setDate(mon.getDate() + 2);
+      return (ev) => { const d = new Date(ev.date); return d >= sat && d < mon; };
+    }
+    if (word === "esta semana") {
+      const in7 = new Date(today.getTime() + 7 * 86400000);
+      return (ev) => { const d = new Date(ev.date); return d >= today && d < in7; };
+    }
+    if (word === "este mes") {
+      return (ev) => { const d = new Date(ev.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); };
+    }
+    const mi = MESES_KEY.indexOf(word);
+    if (mi >= 0) return (ev) => new Date(ev.date).getMonth() === mi;
+    return null;
+  }
+  UI.dateGroupPredicate = dateGroupPredicate;
+
+  function searchGroups(q) {
+    const BX2 = window.BX, S = BX2.store;
+    const norm = stripAccents(q.trim().toLowerCase());
+    if (norm.length < 2) return { groups: [], empty: false };
+    const upcoming = S.upcoming();
+
+    const artistas = upcoming
+      .filter((ev) => stripAccents((ev.title + " " + ev.lineup.join(" ")).toLowerCase()).includes(norm))
+      .slice(0, 5)
+      .map((ev) => ({ type: "event", id: "ev-" + ev.id, event: ev, label: ev.title, sub: S.venue(ev.venueId).name + " · " + UI.dateShort(ev.date) }));
+
+    const venueMap = new Map();
+    upcoming.forEach((ev) => {
+      const v = S.venue(ev.venueId);
+      if (stripAccents(v.name.toLowerCase()).includes(norm)) {
+        if (!venueMap.has(v.id)) venueMap.set(v.id, { venue: v, count: 0 });
+        venueMap.get(v.id).count++;
+      }
+    });
+    const recintos = Array.from(venueMap.values()).slice(0, 4)
+      .map((r) => ({ type: "venue", id: "ve-" + r.venue.id, venue: r.venue, label: r.venue.name, sub: r.count + (r.count === 1 ? " evento" : " eventos") }));
+
+    const fechas = [];
+    DATE_WORDS.forEach((word) => {
+      if (fechas.length || !stripAccents(word).includes(norm)) return;
+      const pred = dateGroupPredicate(word);
+      if (!pred) return;
+      const n = upcoming.filter(pred).length;
+      if (n) fechas.push({ type: "date", id: "fe-" + word, word: word, label: word[0].toUpperCase() + word.slice(1), sub: n + (n === 1 ? " evento" : " eventos") });
+    });
+
+    const groups = [];
+    if (artistas.length) groups.push({ label: "Artistas", items: artistas });
+    if (recintos.length) groups.push({ label: "Recintos", items: recintos });
+    if (fechas.length) groups.push({ label: "Fechas", items: fechas });
+    return { groups: groups, empty: groups.length === 0 };
+  }
+
+  UI.attachSearchAutocomplete = function (form, options) {
+    const opts = options || {};
+    const input = form.querySelector("input");
+    if (!input) return;
+    form.style.position = "relative";
+    const panelId = "ac-panel-" + Math.random().toString(36).slice(2, 8);
+    const panel = UI.el("div", { class: "ac-panel hide", id: panelId, role: "listbox" });
+    form.appendChild(panel);
+    input.setAttribute("role", "combobox");
+    input.setAttribute("aria-expanded", "false");
+    input.setAttribute("aria-controls", panelId);
+    input.setAttribute("aria-autocomplete", "list");
+
+    let flat = [];   // opciones en orden plano, para navegar con flechas
+    let active = -1;
+
+    function itemHTML(it, i) {
+      return (
+        '<button type="button" class="ac-item" role="option" id="' + panelId + "-" + i + '" data-i="' + i + '"' +
+        (i === active ? ' aria-selected="true"' : "") + ">" +
+        '<span class="ac-item-icon">' + UI.icon(it.type === "event" ? "music" : it.type === "venue" ? "pin" : "calendar", 16) + "</span>" +
+        '<span class="ac-item-body"><span class="ac-item-label">' + UI.esc(it.label) + "</span>" +
+        '<span class="ac-item-sub">' + UI.esc(it.sub) + "</span></span></button>"
+      );
+    }
+
+    function render() {
+      const q = input.value;
+      const norm = stripAccents(q.trim().toLowerCase());
+      if (norm.length < 2) { close(); return; }
+      const res = searchGroups(q);
+      flat = [];
+      res.groups.forEach((g) => g.items.forEach((it) => flat.push(it)));
+      active = flat.length ? 0 : -1;
+
+      if (res.empty) {
+        const BX2 = window.BX, S = BX2.store;
+        const sugg = S.upcoming().filter((e) => e.trending).slice(0, 3);
+        panel.innerHTML =
+          '<div class="ac-empty">' +
+          '<p class="t-sm txt-2" style="margin:0">Nada para "<strong>' + UI.esc(q) + '</strong>". Prueba con esto:</p>' +
+          (sugg.length ? '<div class="stack stack-1" style="margin-top:var(--s2)">' +
+            sugg.map((ev, i) => itemHTML({ type: "event", id: "sg-" + ev.id, event: ev, label: ev.title, sub: S.venue(ev.venueId).name }, i)).join("") +
+            "</div>" : "") +
+          "</div>";
+        flat = sugg.map((ev) => ({ type: "event", event: ev }));
+        active = -1;
+      } else {
+        let i = 0;
+        panel.innerHTML = res.groups.map(function (g) {
+          const html = '<div class="ac-group"><span class="ac-group-label">' + g.label + "</span>" +
+            g.items.map((it) => itemHTML(it, i++)).join("") + "</div>";
+          return html;
+        }).join("");
+      }
+      panel.classList.remove("hide");
+      input.setAttribute("aria-expanded", "true");
+      syncActive();
+    }
+
+    function syncActive() {
+      UI.$$(".ac-item", panel).forEach((b) => {
+        const on = Number(b.dataset.i) === active;
+        b.classList.toggle("is-active", on);
+        b.setAttribute("aria-selected", String(on));
+      });
+      input.setAttribute("aria-activedescendant", active >= 0 ? panelId + "-" + active : "");
+      const el = panel.querySelector('[data-i="' + active + '"]');
+      if (el) el.scrollIntoView({ block: "nearest" });
+    }
+
+    function choose(item) {
+      if (!item) return;
+      close();
+      if (opts.onSelect) opts.onSelect(item);
+    }
+
+    function close() {
+      panel.classList.add("hide");
+      panel.innerHTML = "";
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
+      flat = []; active = -1;
+    }
+
+    let t;
+    input.addEventListener("input", function () {
+      clearTimeout(t);
+      t = setTimeout(render, 150);
+    });
+    input.addEventListener("keydown", function (e) {
+      if (panel.classList.contains("hide")) {
+        if (e.key === "ArrowDown" && input.value.trim().length >= 2) { render(); e.preventDefault(); }
+        return;
+      }
+      if (e.key === "ArrowDown") { e.preventDefault(); active = flat.length ? (active + 1) % flat.length : -1; syncActive(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); active = flat.length ? (active - 1 + flat.length) % flat.length : -1; syncActive(); }
+      else if (e.key === "Enter") { if (active >= 0) { e.preventDefault(); choose(flat[active]); } }
+      else if (e.key === "Escape") { close(); }
+    });
+    panel.addEventListener("click", function (e) {
+      const b = e.target.closest("[data-i]");
+      if (b) choose(flat[Number(b.dataset.i)]);
+    });
+    panel.addEventListener("mousemove", function (e) {
+      const b = e.target.closest("[data-i]");
+      if (b) { active = Number(b.dataset.i); syncActive(); }
+    });
+    document.addEventListener("click", function (e) {
+      if (!form.contains(e.target)) close();
+    });
+  };
+
   /* ---------- Tarjeta de evento ---------- */
   UI.eventCard = function (ev) {
     const venue = BX.store.venue(ev.venueId);
@@ -528,7 +720,10 @@
      Cualquier tarjeta o panel que aparezca en el DOM se anima al
      entrar en pantalla. No requiere que cada página lo invoque:
      un MutationObserver la detecta y la pone en observación sola. */
-  const REVEAL_SEL = ".ecard, .stat, .card:not(#bx-menu), .stub, .panel";
+  /* .no-reveal marca paneles flotantes (menús, dropdowns) que no deben
+     entrar al sistema de aparición-al-hacer-scroll: nacen ya visibles
+     al abrirse con un click, no cuando entran en pantalla. */
+  const REVEAL_SEL = ".ecard, .stat, .card:not(.no-reveal), .stub, .panel:not(.no-reveal)";
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let revealObserver;
   function revealObs() {

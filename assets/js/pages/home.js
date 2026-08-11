@@ -13,6 +13,13 @@
     const q = document.getElementById("q").value.trim();
     location.href = P("eventos.html") + (q ? "?q=" + encodeURIComponent(q) : "");
   });
+  UI.attachSearchAutocomplete(form, {
+    onSelect: function (item) {
+      if (item.type === "event") { location.href = P("evento.html?id=" + item.event.id); return; }
+      if (item.type === "venue") { location.href = P("eventos.html?q=" + encodeURIComponent(item.venue.name)); return; }
+      if (item.type === "date") { location.href = P("eventos.html?cuando=" + encodeURIComponent(item.word)); return; }
+    },
+  });
 
   /* ---------- Categorías ---------- */
   document.getElementById("hero-cats").innerHTML = BX.CATEGORIES.map(function (c) {
