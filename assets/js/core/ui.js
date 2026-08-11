@@ -313,7 +313,7 @@
     g.scale(dpr, dpr);
     const rand = rng("boletix-hero");
     g.clearRect(0, 0, w, h);
-    const spots = [["#ff2e97", 0.16, 0.28], ["#22e5ff", 0.78, 0.12], ["#9b5cff", 0.52, 0.68]];
+    const spots = [["#9b5cff", 0.16, 0.28], ["#c9a6ff", 0.78, 0.12], ["#4c1d95", 0.52, 0.68]];
     spots.forEach(function (s) {
       const cx = w * s[1], cy = h * s[2], r = Math.max(w, h) * 0.62;
       const grad = g.createRadialGradient(cx, cy, 0, cx, cy, r);

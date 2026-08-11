@@ -43,6 +43,22 @@
     return u;
   };
 
+  /* ---------- Tema claro / oscuro ----------
+     Persistido en localStorage; el <head> de cada página ya aplicó el
+     atributo antes del primer pintado (ver script inline), así que aquí
+     solo hace falta reflejar el estado en el botón y manejar el click. */
+  const THEME_KEY = "boletix.theme.v1";
+  function getTheme() {
+    return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+  }
+  function setTheme(t) {
+    if (t === "light") document.documentElement.setAttribute("data-theme", "light");
+    else document.documentElement.removeAttribute("data-theme");
+    try { window.localStorage.setItem(THEME_KEY, t); } catch (e) { /* modo privado: no persiste */ }
+  }
+  App.getTheme = getTheme;
+  App.setTheme = setTheme;
+
   /* ---------- Barra superior ---------- */
   // file: se compara con la página actual para marcar el enlace activo.
   const NAV = [
@@ -78,11 +94,14 @@
         '<a class="btn btn-primary btn-sm" href="' + P("registro.html") + '" id="bx-signup">Crear cuenta</a>';
     }
 
+    const themeIcon = getTheme() === "light" ? "moon" : "sun";
     return (
       '<header class="nav"><div class="wrap nav-inner">' +
       '<a class="brand" href="' + UI.url("index.html") + '"><span class="brand-mark">B</span>Boletix</a>' +
       '<nav class="nav-links grow" aria-label="Principal">' + links + "</nav>" +
       '<div class="grow"></div>' +
+      '<button class="btn btn-icon btn-plain" id="bx-theme" type="button" aria-label="Cambiar a tema ' +
+      (getTheme() === "light" ? "oscuro" : "claro") + '">' + UI.icon(themeIcon, 18) + "</button>" +
       '<a class="btn btn-icon btn-plain" href="' + P("eventos.html") + '" aria-label="Buscar eventos">' + UI.icon("search", 19) + "</a>" +
       account +
       "</div></header>"
@@ -186,6 +205,16 @@
 
     const footerSlot = document.getElementById("app-footer");
     if (footerSlot) footerSlot.outerHTML = buildFooter();
+
+    const themeBtn = document.getElementById("bx-theme");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function () {
+        const next = getTheme() === "light" ? "dark" : "light";
+        setTheme(next);
+        themeBtn.innerHTML = UI.icon(next === "light" ? "moon" : "sun", 18);
+        themeBtn.setAttribute("aria-label", "Cambiar a tema " + (next === "light" ? "oscuro" : "claro"));
+      });
+    }
 
     if (!document.body.hasAttribute("data-no-tabbar")) {
       document.body.insertAdjacentHTML("beforeend", buildTabbar());

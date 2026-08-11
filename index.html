@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.cdnfonts.com/css/alte-haas-grotesk" rel="stylesheet">
+<script>(function(){try{if(localStorage.getItem("boletix.theme.v1")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}})();</script>
 <link rel="stylesheet" href="assets/css/boletix.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%239b5cff'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='20' font-weight='bold' fill='white' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
 </head>
@@ -28,38 +29,20 @@
         </nav>
       </div>
 
-      <div class="hero-grid">
-        <div class="hero-disc-col">
-          <img class="hero-vinyl-img" src="assets/img/vinyl-page.jpg" alt="Manos sosteniendo un disco de vinil" width="736" height="823" loading="eager">
-          <div class="hero-seek">
-            <span class="mono">0:00</span>
-            <span class="hero-seek-track"><i></i></span>
-            <span class="mono">0:15</span>
-          </div>
-          <p class="hero-seek-note">Tu QR se renueva cada 15&nbsp;s para que nadie lo clone.</p>
-        </div>
+      <div class="hero-copy">
+        <span class="eyebrow">Ciudad de México · Boletaje justo</span>
+        <h1>Tu boleto<br>sin letras<br><em>chiquitas.</em></h1>
+        <p class="hero-sub">
+          El precio que ves ya trae comisión e IVA. Y si no puedes ir, lo revendes aquí mismo al
+          precio que pagaste.
+        </p>
 
-        <div class="hero-copy">
-          <span class="eyebrow">Ciudad de México · Boletaje justo</span>
-          <h1>Tu boleto<br>sin letras<br><em>chiquitas.</em></h1>
-          <p class="hero-sub">
-            El precio que ves ya trae comisión e IVA. Y si no puedes ir, lo revendes aquí mismo al
-            precio que pagaste.
-          </p>
-
-          <form class="search-bar hero-search" id="hero-search" role="search">
-            <span class="txt-3" aria-hidden="true"></span>
-            <label class="sr" for="q">Buscar evento, artista o recinto</label>
-            <input id="q" type="search" placeholder="Busca un artista, evento o recinto" autocomplete="off">
-            <button class="btn btn-primary btn-sm" type="submit" style="border-radius:var(--r-full);padding-inline:1.1rem">Buscar</button>
-          </form>
-
-          <div class="hero-list-head">
-            <span class="hero-tag">En tendencia</span>
-          </div>
-          <ol class="hero-list" id="hero-list"></ol>
-          <a class="hero-viewmore" href="paginas/eventos.html">Ver más</a>
-        </div>
+        <form class="search-bar hero-search" id="hero-search" role="search">
+          <span class="txt-3" aria-hidden="true"></span>
+          <label class="sr" for="q">Buscar evento, artista o recinto</label>
+          <input id="q" type="search" placeholder="Busca un artista, evento o recinto" autocomplete="off">
+          <button class="btn btn-primary btn-sm" type="submit" style="border-radius:var(--r-full);padding-inline:1.1rem">Buscar</button>
+        </form>
       </div>
     </div>
 

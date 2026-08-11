@@ -23,23 +23,6 @@
   const st = S.platformStats();
   const upcoming = S.upcoming();
 
-  /* ---------- Lista "en tendencia" del hero ---------- */
-  const swatches = ["var(--rosa)", "var(--ambar)", "var(--jade)", "var(--violeta)"];
-  document.getElementById("hero-list").innerHTML = upcoming.slice(0, 4).map(function (e, i) {
-    const venue = S.venue(e.venueId);
-    return (
-      '<li>' +
-      '<span class="hln-n">0' + (i + 1) + '</span>' +
-      '<span class="hln-sw" style="background:' + swatches[i % swatches.length] + '"></span>' +
-      '<a class="hln-body" href="' + P("evento.html?id=" + e.id) + '">' +
-      '<span class="hln-title">' + UI.esc(e.title) + '</span>' +
-      '<span class="hln-venue">' + UI.esc(venue.name) + ' · ' + UI.dateShort(e.date) + '</span>' +
-      '</a>' +
-      '<span class="hln-price">' + UI.money(S.minPrice(e)) + '</span>' +
-      '</li>'
-    );
-  }).join("");
-
   const heroStats = [
     ["Eventos activos", st.liveEvents, "", "en 12 recintos de CDMX"],
     ["Comisión Boletix", 7, "%", "plana, más IVA. Siempre."],
