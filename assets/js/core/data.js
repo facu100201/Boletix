@@ -58,50 +58,50 @@
   ];
 
   /* ---------- Paletas de póster (generadas en canvas) ----------
-     Ocho variaciones dentro de una sola familia cálida —
-     brasa, oro y terracota sobre bases casi negras — para que cada
-     cartel se sienta parte de la misma serie, como una discografía. */
+     Ocho variaciones dentro de una sola familia cyberpunk —
+     magenta, violeta, cian y verde neón sobre bases casi negras —
+     para que cada cartel se sienta parte de la misma serie. */
   const PAL = {
-    rosa:    ["#1a1210", "#d8592e", "#e6c166"],
-    ambar:   ["#20160a", "#e6c166", "#d8592e"],
-    jade:    ["#1c1108", "#dd672c", "#e6c166"],
-    violeta: ["#170f0c", "#dd672c", "#f2e4c8"],
-    cobre:   ["#20100a", "#dd672c", "#d8592e"],
-    azul:    ["#101010", "#d8592e", "#f2ece2"],
-    vino:    ["#170a08", "#b7461f", "#dd672c"],
-    lima:    ["#161616", "#8a7a6b", "#e6c166"],
+    rosa:    ["#170a20", "#ff2e97", "#22e5ff"],
+    ambar:   ["#0a1622", "#22e5ff", "#ff2e97"],
+    jade:    ["#081c16", "#39ffa8", "#9b5cff"],
+    violeta: ["#150c24", "#9b5cff", "#f2e4ff"],
+    cobre:   ["#0a1428", "#3d8bff", "#ff2e97"],
+    azul:    ["#0a0a1c", "#3d8bff", "#eef2ff"],
+    vino:    ["#1a0a22", "#d4127a", "#9b5cff"],
+    lima:    ["#0c1810", "#9dff57", "#39ffa8"],
   };
   BX.PALETTES = PAL;
 
   /* ---------- Plantillas de zonas por tipo de recinto ---------- */
   function zonasTeatro(p) {
     return [
-      { id: "z1", name: "Luneta Preferente", color: "#d8592e", price: p * 1.55, capacity: 240, sold: 0, seated: true, rows: 8,  perRow: 30 },
-      { id: "z2", name: "Luneta",            color: "#e6c166", price: p * 1.15, capacity: 300, sold: 0, seated: true, rows: 10, perRow: 30 },
-      { id: "z3", name: "Primer Piso",       color: "#dd672c", price: p * 0.85, capacity: 210, sold: 0, seated: true, rows: 7,  perRow: 30 },
-      { id: "z4", name: "Segundo Piso",      color: "#b9afa3", price: p * 0.60, capacity: 180, sold: 0, seated: true, rows: 6,  perRow: 30 },
+      { id: "z1", name: "Luneta Preferente", color: "#ff2e97", price: p * 1.55, capacity: 240, sold: 0, seated: true, rows: 8,  perRow: 30 },
+      { id: "z2", name: "Luneta",            color: "#22e5ff", price: p * 1.15, capacity: 300, sold: 0, seated: true, rows: 10, perRow: 30 },
+      { id: "z3", name: "Primer Piso",       color: "#9b5cff", price: p * 0.85, capacity: 210, sold: 0, seated: true, rows: 7,  perRow: 30 },
+      { id: "z4", name: "Segundo Piso",      color: "#948dbd", price: p * 0.60, capacity: 180, sold: 0, seated: true, rows: 6,  perRow: 30 },
     ];
   }
   function zonasGeneral(p) {
     return [
-      { id: "z1", name: "Front Stage",   color: "#d8592e", price: p * 1.60, capacity: 200, sold: 0, seated: false },
-      { id: "z2", name: "General A",     color: "#e6c166", price: p * 1.00, capacity: 600, sold: 0, seated: false },
-      { id: "z3", name: "General B",     color: "#dd672c", price: p * 0.75, capacity: 500, sold: 0, seated: false },
+      { id: "z1", name: "Front Stage",   color: "#ff2e97", price: p * 1.60, capacity: 200, sold: 0, seated: false },
+      { id: "z2", name: "General A",     color: "#22e5ff", price: p * 1.00, capacity: 600, sold: 0, seated: false },
+      { id: "z3", name: "General B",     color: "#9b5cff", price: p * 0.75, capacity: 500, sold: 0, seated: false },
     ];
   }
   function zonasMesas(p) {
     return [
-      { id: "z1", name: "Mesa VIP (4 lugares)", color: "#d8592e", price: p * 2.20, capacity: 80,  sold: 0, seated: true, rows: 4, perRow: 20 },
-      { id: "z2", name: "Mesa Central",         color: "#e6c166", price: p * 1.40, capacity: 160, sold: 0, seated: true, rows: 8, perRow: 20 },
-      { id: "z3", name: "Balcón",               color: "#dd672c", price: p * 0.90, capacity: 200, sold: 0, seated: false },
+      { id: "z1", name: "Mesa VIP (4 lugares)", color: "#ff2e97", price: p * 2.20, capacity: 80,  sold: 0, seated: true, rows: 4, perRow: 20 },
+      { id: "z2", name: "Mesa Central",         color: "#22e5ff", price: p * 1.40, capacity: 160, sold: 0, seated: true, rows: 8, perRow: 20 },
+      { id: "z3", name: "Balcón",               color: "#9b5cff", price: p * 0.90, capacity: 200, sold: 0, seated: false },
     ];
   }
   function zonasCampo(p) {
     return [
-      { id: "z1", name: "Golden Pit",  color: "#d8592e", price: p * 2.00, capacity: 500,  sold: 0, seated: false },
-      { id: "z2", name: "General",     color: "#e6c166", price: p * 1.00, capacity: 3000, sold: 0, seated: false },
-      { id: "z3", name: "Gradas",      color: "#dd672c", price: p * 0.70, capacity: 1200, sold: 0, seated: true, rows: 10, perRow: 40 },
-      { id: "z4", name: "Accesible",   color: "#b9afa3", price: p * 0.70, capacity: 60,   sold: 0, seated: false, accessible: true },
+      { id: "z1", name: "Golden Pit",  color: "#ff2e97", price: p * 2.00, capacity: 500,  sold: 0, seated: false },
+      { id: "z2", name: "General",     color: "#22e5ff", price: p * 1.00, capacity: 3000, sold: 0, seated: false },
+      { id: "z3", name: "Gradas",      color: "#9b5cff", price: p * 0.70, capacity: 1200, sold: 0, seated: true, rows: 10, perRow: 40 },
+      { id: "z4", name: "Accesible",   color: "#948dbd", price: p * 0.70, capacity: 60,   sold: 0, seated: false, accessible: true },
     ];
   }
   BX.zoneTemplate = function (layout, p) {
