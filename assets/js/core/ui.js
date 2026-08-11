@@ -146,6 +146,7 @@
     left: '<path d="m14 5-7 7 7 7"/>',
     right: '<path d="m10 5 7 7-7 7"/>',
     down: '<path d="m5 9 7 7 7-7"/>',
+    up: '<path d="m5 15 7-7 7 7"/>',
     filter: '<path d="M3 6h18M7 12h10M10 18h4"/>',
     card: '<rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/>',
     building: '<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2"/>',

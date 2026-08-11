@@ -166,33 +166,39 @@
   }
 
   /* ---------- Pie ---------- */
+  // Cada liga lleva un ícono de flecha que solo aparece al pasar el
+  // cursor (ver .foot-arrow en boletix.css) — un empujoncito sutil.
+  function footLink(href, label) {
+    return '<a href="' + href + '">' + UI.esc(label) + '<span class="foot-arrow">' + UI.icon("right", 13) + "</span></a>";
+  }
   function buildFooter() {
     const cats = BX.CATEGORIES.slice(0, 5)
-      .map((c) => '<a href="' + P("eventos.html?cat=" + c.id) + '">' + c.name + "</a>").join("");
+      .map((c) => footLink(P("eventos.html?cat=" + c.id), c.name)).join("");
     return (
       '<footer class="foot"><div class="wrap">' +
       '<div class="foot-grid">' +
       "<div>" +
       '<a class="brand" href="' + UI.url("index.html") + '" style="margin-bottom:var(--s3)"><span class="brand-mark">B</span>Boletix</a>' +
       '<p class="t-sm txt-2" style="max-width:34ch">La boletera justa: el precio que ves es el que pagas, tu boleto no se puede clonar y si no puedes ir, recuperas tu dinero.</p>' +
-      '<div class="row" style="gap:var(--s2);margin-top:var(--s3);flex-wrap:wrap">' +
+      '<div class="row" style="gap:var(--s2);margin-top:var(--s4);flex-wrap:wrap">' +
       '<span class="badge badge-jade">' + UI.icon("shield", 13) + " PCI-DSS v4.0</span>" +
       '<span class="badge">' + UI.icon("lock", 13) + " Datos cifrados</span>" +
       "</div></div>" +
-      "<div><h5>Descubre</h5>" + cats + '<a href="' + P("eventos.html") + '">Todos los eventos</a></div>' +
-      "<div><h5>Boletix</h5>" +
-      '<a href="' + P("transparencia.html") + '">Cómo cobramos</a>' +
-      '<a href="' + P("reventa.html") + '">Reventa Justa</a>' +
-      '<a href="' + P("publica-tu-evento.html") + '">Publica tu evento</a>' +
-      '<a href="' + P("ayuda.html") + '">Centro de ayuda</a></div>' +
-      "<div><h5>Legal</h5>" +
-      '<a href="' + P("legal.html#terminos") + '">Términos y condiciones</a>' +
-      '<a href="' + P("legal.html#privacidad") + '">Aviso de privacidad</a>' +
-      '<a href="' + P("legal.html#reembolsos") + '">Política de reembolsos</a>' +
-      '<a href="' + P("ayuda.html#contacto") + '">Contacto y quejas</a></div>' +
+      "<div><h5>" + UI.icon("star", 15) + "Descubre</h5>" + cats + footLink(P("eventos.html"), "Todos los eventos") + "</div>" +
+      "<div><h5>" + UI.icon("shield", 15) + "Boletix</h5>" +
+      footLink(P("transparencia.html"), "Cómo cobramos") +
+      footLink(P("reventa.html"), "Reventa Justa") +
+      footLink(P("publica-tu-evento.html"), "Publica tu evento") +
+      footLink(P("ayuda.html"), "Centro de ayuda") + "</div>" +
+      "<div><h5>" + UI.icon("doc", 15) + "Legal</h5>" +
+      footLink(P("legal.html#terminos"), "Términos y condiciones") +
+      footLink(P("legal.html#privacidad"), "Aviso de privacidad") +
+      footLink(P("legal.html#reembolsos"), "Política de reembolsos") +
+      footLink(P("ayuda.html#contacto"), "Contacto y quejas") + "</div>" +
       "</div>" +
       '<div class="foot-legal">' +
       "<span>Boletix S.A. de C.V. · Ciudad de México · Prototipo académico sin transacciones reales.</span>" +
+      '<button type="button" class="foot-top" id="bx-totop">' + UI.icon("up", 14) + "Volver arriba</button>" +
       "<span>Comisión fija 7% + IVA. Sin precios dinámicos.</span>" +
       "</div></div></footer>"
     );
@@ -205,6 +211,9 @@
 
     const footerSlot = document.getElementById("app-footer");
     if (footerSlot) footerSlot.outerHTML = buildFooter();
+
+    const toTop = document.getElementById("bx-totop");
+    if (toTop) toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
 
     const themeBtn = document.getElementById("bx-theme");
     if (themeBtn) {
